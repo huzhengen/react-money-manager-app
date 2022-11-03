@@ -1,7 +1,22 @@
 import { animated, useTransition } from '@react-spring/web'
 import type { ReactNode } from 'react'
 import { useRef } from 'react'
-import { useLocation, useOutlet } from 'react-router-dom'
+import { Link, useLocation, useOutlet } from 'react-router-dom'
+import logo from '../assets/images/logo.svg'
+
+interface LinkMap {
+  '/welcome/1': string
+  '/welcome/2': string
+  '/welcome/3': string
+  '/welcome/4': string
+}
+
+const linkMap: LinkMap = {
+  '/welcome/1': '/welcome/2',
+  '/welcome/2': '/welcome/3',
+  '/welcome/3': '/welcome/4',
+  '/welcome/4': '/welcome/xxx',
+}
 
 export const WelcomeLayout: React.FC = () => {
   const map = useRef<Record<string, ReactNode>>({})
@@ -14,10 +29,21 @@ export const WelcomeLayout: React.FC = () => {
     leave: { transform: 'translateX(-100%)' },
     config: { duration: 300 }
   })
-  return transitions((style, pathname) =>
-    <animated.div key={pathname} style={style}>
-      {map.current[pathname]}
-    </animated.div>
-  )
+
+  return <div>
+    <header>
+      <img src={logo} alt="" />
+      <h1>Manager</h1>
+    </header>
+    <main>{transitions((style, pathname) =>
+      <animated.div key={pathname} style={style}>
+        {map.current[pathname]}
+      </animated.div>
+    )}</main>
+    <footer>
+      <Link to={linkMap[location.pathname]}>Next</Link>
+      <Link to="/xxx">Skip</Link>
+    </footer>
+  </div>
 }
 
