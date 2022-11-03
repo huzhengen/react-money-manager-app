@@ -30,19 +30,23 @@ export const WelcomeLayout: React.FC = () => {
     config: { duration: 300 }
   })
 
-  return <div>
-    <header>
-      <img src={logo} alt="" />
-      <h1>Manager</h1>
+  return <div className="bg-#5f34bf" h-screen flex flex-col items-stretch pb-16px>
+    <header shrink-0 text-center pt-32px>
+      <img src={logo} alt="" w-64px h-69px />
+      <h1 text="#D4D4EE" text-32px>Manager</h1>
     </header>
-    <main>{transitions((style, pathname) =>
-      <animated.div key={pathname} style={style}>
-        {map.current[pathname]}
-      </animated.div>
-    )}</main>
-    <footer>
-      <Link to={linkMap[location.pathname]}>Next</Link>
-      <Link to="/xxx">Skip</Link>
+    <main shrink-1 grow-1 relative>
+      {transitions((style, pathname) =>
+        <animated.div key={pathname} style={style} w="100%" h="100%" p-16px flex>
+          <div grow-1 bg-white flex justify-center items-center rounded-8px>
+            {map.current[pathname]}
+          </div>
+        </animated.div>
+      )}
+    </main>
+    <footer shrink-0 text-center text-24px text-white grid grid-cols-3 grid-rows-1>
+      <Link style={{ gridArea: '1 / 2 / 2 / 3' }} to={linkMap[location.pathname]}>Next</Link>
+      <Link style={{ gridArea: '1 / 3 / 2 / 4' }} to="/xxx">Skip</Link>
     </footer>
   </div>
 }
