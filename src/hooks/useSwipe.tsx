@@ -9,25 +9,26 @@ interface Config {
 export const useSwipe = (elementRef: RefObject<HTMLElement>, config?: Config) => {
   const [direction, setDirection] = useState<'' | 'left' | 'right'>('')
   const x = useRef(-1)
+  const d = useRef(0)
   const onTouchStart = (e: TouchEvent) => {
     config?.onTouchStart?.(e)
+    setDirection('')
     x.current = e.touches[0].clientX
   }
   const onTouchMove = (e: TouchEvent) => {
     config?.onTouchMove?.(e)
     const newX = e.touches[0].clientX
-    const d = newX - x.current
-    if (Math.abs(d) < 3) {
+    d.current = newX - x.current
+  }
+  const onTouchEnd = (e: TouchEvent) => {
+    config?.onTouchEnd?.(e)
+    if (Math.abs(d.current) < 3) {
       setDirection('')
-    } else if (d > 0) {
+    } else if (d.current > 0) {
       setDirection('right')
     } else {
       setDirection('left')
     }
-  }
-  const onTouchEnd = (e: TouchEvent) => {
-    config?.onTouchEnd?.(e)
-    setDirection('')
   }
   useEffect(() => {
     if (!elementRef.current) { return }
