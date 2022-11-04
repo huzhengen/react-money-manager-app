@@ -1,17 +1,10 @@
 import { animated, useTransition } from '@react-spring/web'
 import type { ReactNode } from 'react'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { Link, useLocation, useOutlet } from 'react-router-dom'
 import logo from '../assets/images/logo.svg'
 
-interface LinkMap {
-  '/welcome/1': string
-  '/welcome/2': string
-  '/welcome/3': string
-  '/welcome/4': string
-}
-
-const linkMap: LinkMap = {
+const linkMap = {
   '/welcome/1': '/welcome/2',
   '/welcome/2': '/welcome/3',
   '/welcome/3': '/welcome/4',
@@ -23,11 +16,18 @@ export const WelcomeLayout: React.FC = () => {
   const location = useLocation()
   const outlet = useOutlet()
   map.current[location.pathname] = outlet
+  const [extraStyle, setExtraStyle] = useState({ position: 'relative' } as React.CSSProperties)
   const transitions = useTransition(location.pathname, {
     from: { transform: location.pathname === '/welcome/1' ? 'translateX(0%)' : 'translateX(100%)' },
     enter: { transform: 'translateX(0%)' },
     leave: { transform: 'translateX(-100%)' },
-    config: { duration: 300 }
+    config: { duration: 500 },
+    onStart: () => {
+      setExtraStyle({ position: 'absolute' })
+    },
+    onRest: () => {
+      setExtraStyle({ position: 'relative' })
+    }
   })
 
   return <div className="bg-#5f34bf" h-screen flex flex-col items-stretch pb-16px>
@@ -37,7 +37,7 @@ export const WelcomeLayout: React.FC = () => {
     </header>
     <main shrink-1 grow-1 relative>
       {transitions((style, pathname) =>
-        <animated.div key={pathname} style={style} w-full h-full p-16px flex>
+        <animated.div key={pathname} style={{ ...style, ...extraStyle }} w-full h-full p-16px flex>
           <div grow-1 bg-white flex justify-center items-center rounded-8px>
             {map.current[pathname]}
           </div>
