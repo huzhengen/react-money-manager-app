@@ -31,9 +31,6 @@ html {
   font-size: 14px;
 }
 
-html,
-body {
-  max-width: 400px;
-  margin: 0 auto;
-  overflow: hidden;
+button {
+  font: inherit;
 }
