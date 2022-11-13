@@ -8,16 +8,10 @@ import { Welcome3 } from '../pages/Welcome3'
 import { Welcome4 } from '../pages/Welcome4'
 
 export const router = createBrowserRouter([
+  { path: '/', element: <Root />, },
+  { path: '/home', element: <Home title="Home" /> },
   {
-    path: '/',
-    element: <Root />
-  },
-  {
-    path: '/home',
-    element: <Home />,
-  },
-  {
-    path: 'welcome',
+    path: '/welcome',
     element: <WelcomeLayout />,
     children: [
       { path: '1', element: <Welcome1 /> },
@@ -26,4 +20,5 @@ export const router = createBrowserRouter([
       { path: '4', element: <Welcome4 /> },
     ]
   },
+  { path: '/items', element: <div>items</div> },
 ])
