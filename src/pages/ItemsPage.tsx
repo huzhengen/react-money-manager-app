@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { useState } from 'react'
 import { AddItemFloatButton } from '../components/AddItemFloatButton'
-import { Topnav } from '../components/Topnav'
+import { TopNav } from '../components/TopNav'
 import type { TimeRange } from '../components/TimeRangePicker'
 import { TimeRangePicker } from '../components/TimeRangePicker'
 import { ItemsList } from './ItemsPage/ItemsList'
@@ -36,7 +36,7 @@ export const ItemsPage: React.FC = () => {
   ])
   return <div>
     <Div>
-      <Topnav />
+      <TopNav />
       <TimeRangePicker onSelected={setTimeRange} selected={timeRange} />
     </Div>
     <ItemsSummary />
