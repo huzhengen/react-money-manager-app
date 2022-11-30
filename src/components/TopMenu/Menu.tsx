@@ -1,3 +1,4 @@
+import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 import { Icon } from '../Icon'
 
@@ -9,15 +10,23 @@ const MyIcon = styled(Icon)`
   width: 32px; height: 32px; margin-right: 16px;
 `
 
+const items = [
+  { key: 'chart', icon: 'chart', text: 'Charts', to: '/chart' },
+  { key: 'export', icon: 'export', text: 'Export', to: '/export' },
+  { key: 'tags', icon: 'category', text: 'Tags', to: '/tags' },
+  { key: 'noty', icon: 'noty', text: 'Notify', to: '/noty' },
+]
+
 export const Menu: React.FC<Props> = ({ className }) => {
   return (
-    <ul className={className} bg-white text-20px py-16px
-      children-flex children-items-center children-px-16px
-      children-py-8px children-mb-4px>
-      <li><MyIcon name="chart" />Charts</li>
-      <li><MyIcon name="export" />Export</li>
-      <li><MyIcon name="category" />Category</li>
-      <li><MyIcon name="noty" />Notify</li>
+    <ul className={className} bg-white text-20px py-16px >
+      {items.map(item =>
+        <li key={item.key}>
+          <NavLink flex items-center px-16px py-8px mb-4px to={item.to}>
+            <MyIcon name={item.icon} />{item.text}
+          </NavLink>
+        </li>
+      )}
     </ul>
   )
 }

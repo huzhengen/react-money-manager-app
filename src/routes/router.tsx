@@ -22,4 +22,9 @@ export const router = createBrowserRouter([
     ]
   },
   { path: '/items', element: <ItemsPage /> },
+  { path: '/sign_in', element: <div>sign in</div> },
+  { path: '/chart', element: <div>Charts</div> },
+  { path: '/export', element: <div>Under Construction</div> },
+  { path: '/tags', element: <div>Tags</div> },
+  { path: '/noty', element: <div>Under Construction</div> },
 ])
