@@ -11,15 +11,18 @@ const getKey = (pageIndex: number, prev: Resources<Item>) => {
   return `/api/v1/items?page=${pageIndex + 1}`
 }
 export const ItemsList: React.FC<Props> = () => {
-  const { data, error, size, setSize } = useSWRInfinite(
+  const { data, size, setSize } = useSWRInfinite(
     getKey, async path => (await ajax.get<Resources<Item>>(path)).data
   )
   const onLoadMore = () => {
     setSize(size + 1)
   }
   if (!data) {
-    return <div>no data</div>
+    return <div>No data</div>
   } else {
+    const last = data[data.length - 1]
+    const { page, per_page, count } = last.pager
+    const hasMore = (page - 1) * per_page + last.resources.length < count
     return <><ol>{data.map(({ resources }) => {
       return resources.map(item =>
         <li key={item.id} grid grid-cols="[auto_1fr_auto]" grid-rows-2 px-16px py-8px gap-x-12px
@@ -40,9 +43,9 @@ export const ItemsList: React.FC<Props> = () => {
         </li>
       )
     })}</ol>
-      <div p-16px>
-        <button j-btn onClick={onLoadMore}>Load more</button>
-      </div>
+      {hasMore
+        ? <div p-16px text-center><button j-btn onClick={onLoadMore}>Load More</button></div>
+        : <div p-16px text-center>No more data to display</div>}
     </>
   }
 }
