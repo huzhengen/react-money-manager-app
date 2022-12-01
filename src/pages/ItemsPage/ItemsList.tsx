@@ -1,7 +1,12 @@
+import styled from 'styled-components'
 import useSWRInfinite from 'swr/infinite'
 import { ajax } from '../../lib/ajax'
 interface Props {
 }
+const Div = styled.div`
+  padding: 16px;
+  text-align: center;
+`
 const getKey = (pageIndex: number, prev: Resources<Item>) => {
   if (prev) {
     const sendCount = (prev.pager.page - 1) * prev.pager.per_page + prev.resources.length
@@ -11,14 +16,20 @@ const getKey = (pageIndex: number, prev: Resources<Item>) => {
   return `/api/v1/items?page=${pageIndex + 1}`
 }
 export const ItemsList: React.FC<Props> = () => {
-  const { data, size, setSize } = useSWRInfinite(
+  const { data, error, size, setSize } = useSWRInfinite(
     getKey, async path => (await ajax.get<Resources<Item>>(path)).data
   )
   const onLoadMore = () => {
     setSize(size + 1)
   }
+  const isLoadingInitialData = !data && !error
+  const isLoadingMore = data?.[size - 1] === undefined && !error
+  const isLoading = isLoadingInitialData || isLoadingMore
   if (!data) {
-    return <div>No data</div>
+    return <div>
+      {error && <Div>Something went wrong. Try refreshing this page.</Div>}
+      {isLoading && <Div>Loading...</Div>}
+    </div>
   } else {
     const last = data[data.length - 1]
     const { page, per_page, count } = last.pager
@@ -43,9 +54,12 @@ export const ItemsList: React.FC<Props> = () => {
         </li>
       )
     })}</ol>
-      {hasMore
-        ? <div p-16px text-center><button j-btn onClick={onLoadMore}>Load More</button></div>
-        : <div p-16px text-center>No more data to display</div>}
+      {error && <Div>Something went wrong. Try refreshing this page.</Div>}
+      {!hasMore
+        ? <Div>No more data to display</Div>
+        : isLoading
+          ? <Div>Loading...</Div>
+          : <Div><button j-btn onClick={onLoadMore}>Load More</button></Div>}
     </>
   }
 }
