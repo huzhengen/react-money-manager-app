@@ -6,9 +6,14 @@ const getKey = (pageIndex: number) => {
   return `/api/v1/items?page=${pageIndex + 1}`
 }
 export const ItemsList: React.FC<Props> = () => {
-  const { data, error, isValidating, mutate, size, setSize } = useSWRInfinite(
+  const { data, error } = useSWRInfinite(
     getKey, async path => (await ajax.get<Resource<Item>>(path)).data
   )
+  if (!data) {
+    return 'no data'
+  } else {
+    console.log(data, error)
+  }
   const items: Item[] = []
   return <div>
     <ol>
