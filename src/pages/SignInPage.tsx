@@ -1,13 +1,16 @@
 import type { FormEventHandler } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Gradient } from '../components/Gradient'
 import { Icon } from '../components/Icon'
 import { TopNav } from '../components/TopNav'
-import { validate } from '../lib/validate'
+import { ajax } from '../lib/ajax'
+import { hasError, validate } from '../lib/validate'
 import { useSignInStore } from '../stores/useSignInStore'
 
 export const SignInPage: React.FC = () => {
   const { data, error, setData, setError } = useSignInStore()
-  const onSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+  const nav = useNavigate()
+  const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault()
     const error = validate(data, [
       { key: 'email', type: 'required', message: 'Please input your email' },
@@ -16,6 +19,10 @@ export const SignInPage: React.FC = () => {
       { key: 'code', type: 'length', min: 6, max: 6, message: 'The code is incorrect' },
     ])
     setError(error)
+    if (hasError(error)) {
+      await ajax.post('/api/v1/sign_in', data)
+      nav('/home')
+    }
   }
   return (<div>
     <Gradient>
