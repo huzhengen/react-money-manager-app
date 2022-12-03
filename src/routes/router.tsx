@@ -3,6 +3,7 @@ import { Root } from '../components/Root'
 import { WelcomeLayout } from '../layouts/WelcomeLayout'
 import { Home } from '../pages/Home'
 import { ItemsPage } from '../pages/ItemsPage'
+import { SignInPage } from '../pages/SignInPage'
 import { Welcome1 } from '../pages/Welcome1'
 import { Welcome2 } from '../pages/Welcome2'
 import { Welcome3 } from '../pages/Welcome3'
@@ -22,7 +23,7 @@ export const router = createBrowserRouter([
     ]
   },
   { path: '/items', element: <ItemsPage /> },
-  { path: '/sign_in', element: <div>sign in</div> },
+  { path: '/sign_in', element: <SignInPage /> },
   { path: '/chart', element: <div>Charts</div> },
   { path: '/export', element: <div>Under Construction</div> },
   { path: '/tags', element: <div>Tags</div> },
