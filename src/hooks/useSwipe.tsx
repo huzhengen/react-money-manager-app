@@ -7,27 +7,42 @@ interface Config {
   onTouchEnd?: (e: TouchEvent) => void
 }
 export const useSwipe = (elementRef: RefObject<HTMLElement>, config?: Config) => {
-  const [direction, setDirection] = useState<'' | 'left' | 'right'>('')
+  const [direction, setDirection] = useState<'' | 'left' | 'right' | 'up' | 'down'>('')
   const x = useRef(-1)
-  const d = useRef(0)
+  const y = useRef(-1)
+  const dx = useRef(0)
+  const dy = useRef(0)
   const onTouchStart = (e: TouchEvent) => {
     config?.onTouchStart?.(e)
     setDirection('')
     x.current = e.touches[0].clientX
+    y.current = e.touches[0].clientY
   }
   const onTouchMove = (e: TouchEvent) => {
     config?.onTouchMove?.(e)
     const newX = e.touches[0].clientX
-    d.current = newX - x.current
+    const newY = e.touches[0].clientY
+    dx.current = newX - x.current
+    dy.current = newY - y.current
   }
   const onTouchEnd = (e: TouchEvent) => {
     config?.onTouchEnd?.(e)
-    if (Math.abs(d.current) < 3) {
-      setDirection('')
-    } else if (d.current > 0) {
-      setDirection('right')
+    if (Math.abs(dx.current) > Math.abs(dy.current)) {
+      if (Math.abs(dx.current) < 3) {
+        setDirection('')
+      } else if (dx.current > 0) {
+        setDirection('right')
+      } else {
+        setDirection('left')
+      }
     } else {
-      setDirection('left')
+      if (Math.abs(dy.current) < 3) {
+        setDirection('')
+      } else if (dy.current > 0) {
+        setDirection('down')
+      } else {
+        setDirection('up')
+      }
     }
   }
   useEffect(() => {
