@@ -49,6 +49,7 @@ export const WelcomeLayout: React.FC = () => {
     setHasReadWelcomes(true)
   }
   return <div className="bg-#5f34bf" h-screen flex flex-col items-stretch pb-16px>
+    <Link fixed text-white top-16px right-16px text-32px to="/home" onClick={onSkip}>Skip</Link>
     <header shrink-0 text-center pt-32px>
       <img src={logo} alt="" w-64px h-69px />
       <h1 text="#D4D4EE" text-32px>Manager</h1>
@@ -62,9 +63,5 @@ export const WelcomeLayout: React.FC = () => {
         </animated.div>
       )}
     </main>
-    <footer shrink-0 text-center text-24px text-white grid grid-cols-3 grid-rows-1>
-      <Link style={{ gridArea: '1 / 2 / 2 / 3' }} to={linkMap[location.pathname]}>Next</Link>
-      <Link style={{ gridArea: '1 / 3 / 2 / 4' }} to="/home" onClick={onSkip}>Skip</Link>
-    </footer>
   </div>
 }
