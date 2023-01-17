@@ -14,3 +14,8 @@ sh bin/deploy_to_github.sh
 npm config set save-prefix=""
 gc -v --amend
 ```
+
+```
+pnpm run build
+pnpm run preview
+```

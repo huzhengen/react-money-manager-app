@@ -17,15 +17,18 @@ type Props<T> = {
 export const Tabs = <T extends string>(props: Props<T>) => {
   const { tabItems, value, onChange, className, classPrefix } = props
   return (
-    <div className={cs(className, classPrefix)}>
-      <ol className={classPrefix ? `${classPrefix}-menu` : ''} flex text-white children-px-24px children-py-12px bg='[rgb(143,76,215)]'>
+    <div className={cs(className, classPrefix)} flex flex-col>
+      <ol className={classPrefix ? `${classPrefix}-menu` : ''}
+        flex text-white children-px-24px children-py-12px bg='[rgb(143,76,215)]'
+        grow-0 shrink-0>
         {tabItems.map(item => <li key={item.key}
           className={cs(item.key === value ? s.selected : '', classPrefix ? `${classPrefix}-menu-item` : '')}
           onClick={() => onChange(item.key)}>
           {item.text}
         </li>)}
       </ol>
-      <div className={classPrefix ? `${classPrefix}-pane` : ''}>
+      <div className={classPrefix ? `${classPrefix}-pane` : ''}
+        grow-1 shrink-1 overflow-auto>
         {tabItems.filter(item => item.key === value)[0].element}
       </div>
     </div>
