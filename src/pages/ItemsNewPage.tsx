@@ -4,17 +4,19 @@ import { Icon } from '../components/Icon'
 import { Tabs } from '../components/Tabs'
 import { TopNav } from '../components/TopNav'
 
-const tabItems: { key: 'expenses' | 'income'; text: string }[] = [
+type ItemKind = 'income' | 'expenses'
+const tabItems: { key: ItemKind; text: string }[] = [
   { key: 'expenses', text: 'expenses' },
   { key: 'income', text: 'income' },
 ]
 
 export const ItemsNewPage: React.FC = () => {
-  const [item, setItem] = useState<string>('expenses')
+  const [tabItem, setTabItem] = useState<ItemKind>('expenses')
   return (
     <Gradient>
       <TopNav title="New" icon={<Icon name="back" />} />
-      <Tabs tabItems={tabItems} value={item} onChange={setItem} />
+      <Tabs tabItems={tabItems} className="children-flex-1 text-center"
+        value={tabItem} onChange={item => setTabItem(item)} />
     </Gradient>
   )
 }
