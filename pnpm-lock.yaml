@@ -22,6 +22,7 @@ specifiers:
   swr: 1.3.0
   typescript: 4.8.4
   unocss: 0.45.30
+  vh-check: 2.0.5
   vite: 3.1.8
   vite-plugin-mock: 2.9.6
   zustand: 4.1.4
@@ -37,6 +38,7 @@ dependencies:
   sass: 1.55.0
   styled-components: 5.3.6_biqbaboplfbrettd7655fr4n2y
   swr: 1.3.0_react@18.2.0
+  vh-check: 2.0.5
   zustand: 4.1.4_react@18.2.0
 
 devDependencies:
@@ -3834,6 +3836,10 @@ packages:
       spdx-correct: 3.1.1
       spdx-expression-parse: 3.0.1
     dev: true
+
+  /vh-check/2.0.5:
+    resolution: {integrity: sha512-vHtIYWt9uLl2P2tLlatVpMwv9+ezuJCtMNjUVIpzd5Pa/dJXN8AtqkKmVRcNSlmXyCjkCkbMQX/Vs9axmdlfgg==}
+    dev: false
 
   /vite-plugin-mock/2.9.6_mockjs@1.1.0+vite@3.1.8:
     resolution: {integrity: sha512-/Rm59oPppe/ncbkSrUuAxIQihlI2YcBmnbR4ST1RA2VzM1C0tEQc1KlbQvnUGhXECAGTaQN2JyasiwXP6EtKgg==}
