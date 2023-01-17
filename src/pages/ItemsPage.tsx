@@ -16,8 +16,8 @@ export const ItemsPage: React.FC = () => {
   return <div>
     <Gradient>
       <TopNav title="List" icon={<Icon name="menu" className="w-24px h-24px" onClick={() => setVisible(!visible)} />} />
-      <TimeRangePicker onSelect={setTimeRange} selected={timeRange} />
     </Gradient>
+    <TimeRangePicker onSelect={setTimeRange} selected={timeRange} />
     <ItemsSummary />
     <ItemsList />
     <AddItemFloatButton />
