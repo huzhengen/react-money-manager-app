@@ -29,7 +29,7 @@ export const DateAndAmount: React.FC<Props> = (props) => {
       if (Math.abs(yushu) < 18) {
         setTranslateY(translateY - yushu)
       } else {
-        setTranslateY(translateY - yushu - 36 * (yushu > 0 ? 1 : -1))
+        setTranslateY(translateY - yushu + 36 * (yushu > 0 ? 1 : -1))
       }
       setIsTouching(false)
     }}
