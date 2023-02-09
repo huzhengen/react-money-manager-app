@@ -1,6 +1,13 @@
 import { useState } from 'react'
 
-export const Datepicker: React.FC = () => {
+type Props = {
+  start?: Date
+  end?: Date
+  value?: Date
+}
+
+export const Datepicker: React.FC<Props> = (props) => {
+  const { start, end, value } = props
   const [isTouching, setIsTouching] = useState(false)
   const [lastY, setLastY] = useState(-1)
   const [translateY, setTranslateY] = useState(0)
