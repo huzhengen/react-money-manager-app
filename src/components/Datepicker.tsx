@@ -5,10 +5,11 @@ type Props = {
   start?: Date
   end?: Date
   value?: Date
+  itemHeight?: number
 }
 
 export const Datepicker: React.FC<Props> = (props) => {
-  const { start, end, value } = props
+  const { start, end, value, itemHeight = 36 } = props
   const startTime = start ? time(start) : time(start).add(-10, 'years')
   const endTime = end ? time(end) : time(end).add(10, 'years')
   const valueTime = value ? time(value) : time()
@@ -21,7 +22,7 @@ export const Datepicker: React.FC<Props> = (props) => {
 
   const [isTouching, setIsTouching] = useState(false)
   const [lastY, setLastY] = useState(-1)
-  const [translateY, setTranslateY] = useState(index * (-36))
+  const [translateY, setTranslateY] = useState(index * (-itemHeight))
   return (
     <div h="50vh" overflow-hidden relative
       onTouchStart={(e) => {
@@ -37,20 +38,23 @@ export const Datepicker: React.FC<Props> = (props) => {
         }
       }}
       onTouchEnd={() => {
-        const remainder = translateY % 36
+        const remainder = translateY % itemHeight
         let y = translateY - remainder
-        if (Math.abs(remainder) > 18) {
-          y += 36 * (remainder > 0 ? 1 : -1)
+        if (Math.abs(remainder) > itemHeight / 2) {
+          y += itemHeight * (remainder > 0 ? 1 : -1)
         }
         setTranslateY(y)
         setIsTouching(false)
       }}
     >
-      <div b-1 b-red h-36px absolute top="[calc(50%-18px)]" w-full />
-      <div absolute top="[calc(50%-18px)]" w-full>
-        <ol children-h-36px text-center children-leading-36px
-          style={{ transform: `translateY(${translateY}px)` }}>
-          {yearList.map(year => <li key={year}>{year}</li>)}
+      <div b-1 b-red absolute top="50%" w-full
+        style={{ height: itemHeight, transform: `translateY(${-itemHeight / 2}px)` }} />
+      <div absolute top="50%" w-full style={{ transform: `translateY(${-itemHeight / 2}px)` }}>
+        <ol style={{ transform: `translateY(${translateY}px)` }}
+          text-center children-flex children-items-center children-justify-center>
+          {yearList.map(year =>
+            <li key={year} style={{ height: itemHeight }}>{year}</li>
+          )}
         </ol>
       </div>
     </div>
