@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { time } from '../lib/time'
 
 type Props = {
   start?: Date
@@ -8,9 +9,19 @@ type Props = {
 
 export const Datepicker: React.FC<Props> = (props) => {
   const { start, end, value } = props
+  const startTime = start ? time(start) : time(start).add(-10, 'years')
+  const endTime = end ? time(end) : time(end).add(10, 'years')
+  const valueTime = value ? time(value) : time()
+  if (endTime.timestamp <= startTime.timestamp) {
+    throw new Error('The end time must be later than the start time!')
+  }
+  const yearList = Array.from({ length: endTime.year - startTime.year + 1 })
+    .map((_, index) => startTime.year + index)
+  const index = yearList.indexOf(valueTime.year)
+
   const [isTouching, setIsTouching] = useState(false)
   const [lastY, setLastY] = useState(-1)
-  const [translateY, setTranslateY] = useState(0)
+  const [translateY, setTranslateY] = useState(index * (-36))
   return (
     <div h="50vh" overflow-hidden relative
       onTouchStart={(e) => {
@@ -36,35 +47,10 @@ export const Datepicker: React.FC<Props> = (props) => {
       }}
     >
       <div b-1 b-red h-36px absolute top="[calc(50%-18px)]" w-full />
-      <div absolute top="[calc(50%-18px-108px)]" w-full>
+      <div absolute top="[calc(50%-18px)]" w-full>
         <ol children-h-36px text-center children-leading-36px
           style={{ transform: `translateY(${translateY}px)` }}>
-          <li>2000</li>
-          <li>2001</li>
-          <li>2002</li>
-          <li>2003</li>
-          <li>2004</li>
-          <li>2005</li>
-          <li>2006</li>
-          <li>2007</li>
-          <li>2008</li>
-          <li>2009</li>
-          <li>2010</li>
-          <li>2011</li>
-          <li>2012</li>
-          <li>2013</li>
-          <li>2014</li>
-          <li>2015</li>
-          <li>2016</li>
-          <li>2017</li>
-          <li>2018</li>
-          <li>2019</li>
-          <li>2020</li>
-          <li>2021</li>
-          <li>2022</li>
-          <li>2023</li>
-          <li>2024</li>
-          <li>2025</li>
+          {yearList.map(year => <li key={year}>{year}</li>)}
         </ol>
       </div>
     </div>

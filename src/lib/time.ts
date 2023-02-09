@@ -58,6 +58,10 @@ export class Time {
     return this
   }
 
+  get timestamp() {
+    return this.date.getTime()
+  }
+
   get parts(): Parts {
     const year = this.date.getFullYear()
     const month = this.date.getMonth() + 1
