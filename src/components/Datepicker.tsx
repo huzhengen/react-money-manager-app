@@ -22,7 +22,16 @@ export const Datepicker: React.FC<Props> = (props) => {
 
   const [isTouching, setIsTouching] = useState(false)
   const [lastY, setLastY] = useState(-1)
-  const [translateY, setTranslateY] = useState(index * (-itemHeight))
+  const [translateY, _setTranslateY] = useState(index * (-itemHeight))
+  const setTranslateY = (y: number) => {
+    // y = Math.min(y, 0)
+    // y = Math.max(y, (yearList.length - 1) * -itemHeight)
+    if (y > 0) { y = 0 }
+    if (y < (yearList.length - 1) * (-itemHeight)) {
+      y = (yearList.length - 1) * (-itemHeight)
+    }
+    _setTranslateY(y)
+  }
   return (
     <div h="50vh" overflow-hidden relative
       onTouchStart={(e) => {
