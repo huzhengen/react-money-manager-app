@@ -1,30 +1,35 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { time } from '../lib/time'
 
 type Props = {
   start?: Date
   end?: Date
   value?: Date
+  onChange?: (value: Date) => void
 }
 
 export const Datepicker: React.FC<Props> = (props) => {
-  const { start, end, value } = props
+  const { start, end, value, onChange } = props
+  const [, update] = useState({})
   const startTime = start ? time(start) : time(start).add(-10, 'years')
   const endTime = end ? time(end) : time(end).add(10, 'years')
-  const valueTime = value ? time(value) : time()
+  const valueTime = useRef(value ? time(value) : time())
   if (endTime.timestamp <= startTime.timestamp) {
     throw new Error('The end time must be later than the start time!')
   }
   const yearList = Array.from({ length: endTime.year - startTime.year + 1 })
     .map((_, index) => startTime.year + index)
   const monthList = Array.from({ length: 12 }).map((_, index) => index + 1)
-  const dayList = Array.from({ length: valueTime.lastDayOfMonth.day })
+  const dayList = Array.from({ length: valueTime.current.lastDayOfMonth.day })
     .map((_, index) => index + 1)
   return (
     <div flex>
-      <Column className="grow-1" items={yearList} value={valueTime.year} />
-      <Column className="grow-1" items={monthList} value={valueTime.month} />
-      <Column className="grow-1" items={dayList} value={valueTime.day} />
+      <Column className="grow-1" items={yearList} value={valueTime.current.year}
+        onChange={(year) => { valueTime.current.year = year; update({}); onChange?.(valueTime.current.date) }} />
+      <Column className="grow-1" items={monthList} value={valueTime.current.month}
+        onChange={(month) => { valueTime.current.month = month; update({}); onChange?.(valueTime.current.date) }} />
+      <Column className="grow-1" items={dayList} value={valueTime.current.day}
+        onChange={(day) => { valueTime.current.day = day; update({}); onChange?.(valueTime.current.date) }} />
     </div>
   )
 }
@@ -34,10 +39,11 @@ type ColumnProps = {
   value: number
   itemHeight?: number
   className?: string
+  onChange: (value: number) => void
 }
 
 export const Column: React.FC<ColumnProps> = (props) => {
-  const { items, value, itemHeight = 36, className } = props
+  const { items, value, itemHeight = 36, className, onChange } = props
   const index = items.indexOf(value)
 
   const [isTouching, setIsTouching] = useState(false)
@@ -74,6 +80,7 @@ export const Column: React.FC<ColumnProps> = (props) => {
         }
         setTranslateY(y)
         setIsTouching(false)
+        onChange(items[Math.abs(y / itemHeight)])
       }}
     >
       <div border-b-1 border-t-1 b="#eee" absolute top="50%" w-full
