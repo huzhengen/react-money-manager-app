@@ -5,6 +5,7 @@ import { Home } from '../pages/Home'
 import { ItemsNewPage } from '../pages/ItemsNewPage'
 import { ItemsPage } from '../pages/ItemsPage'
 import { SignInPage } from '../pages/SignInPage'
+import { TagsNewPage } from '../pages/TagsNewPage'
 import { Welcome1 } from '../pages/Welcome1'
 import { Welcome2 } from '../pages/Welcome2'
 import { Welcome3 } from '../pages/Welcome3'
@@ -29,5 +30,6 @@ export const router = createBrowserRouter([
   { path: '/chart', element: <div>Charts</div> },
   { path: '/export', element: <div>Under Construction</div> },
   { path: '/tags', element: <div>Tags</div> },
+  { path: '/tags/new', element: <TagsNewPage /> },
   { path: '/noty', element: <div>Under Construction</div> },
 ])
