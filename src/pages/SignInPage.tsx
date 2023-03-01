@@ -36,14 +36,8 @@ export const SignInPage: React.FC = () => {
     <form j-form onSubmit={onSubmit}>
       <Input label='Email' value={data.email} placeholder='Email'
         onChange={value => setData({ email: value })} error={error.email?.[0]} />
-      <div>
-        <span j-form-label>Code {error.code?.[0] && <span text-red>{error.code[0]}</span>}</span>
-        <div flex gap-x-16px>
-          <input j-input-text type="text" placeholder='Enter 6-digit code'
-            value={data.code} onChange={e => setData({ code: e.target.value })} />
-          <button j-btn>Send Code</button>
-        </div>
-      </div>
+      <Input label='Code' value={data.code} placeholder='Enter 6-digit code' type='sms_code'
+        onChange={value => setData({ code: value })} error={error.code?.[0]} />
       <div mt-100px>
         <button j-btn type="submit">Sign In</button>
       </div>
