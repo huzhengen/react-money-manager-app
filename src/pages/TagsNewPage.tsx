@@ -23,14 +23,14 @@ export const TagsNewPage: React.FC = () => {
   }, [searchParams])
   const onSubmit: FormEventHandler = async (e) => {
     e.preventDefault()
-    const error = validate(data, [
+    const newError = validate(data, [
       { key: 'kind', type: 'required', message: 'kind is required' },
       { key: 'name', type: 'required', message: 'Please input tag name' },
       { key: 'name', type: 'length', max: 4, message: 'Tag name too long' },
       { key: 'sign', type: 'required', message: 'Please input sign' },
     ])
-    setError(error)
-    if (hasError(error)) {
+    setError(newError)
+    if (!hasError(newError)) {
       // ajax
     }
   }

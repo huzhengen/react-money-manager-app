@@ -13,14 +13,14 @@ export const SignInPage: React.FC = () => {
   const nav = useNavigate()
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault()
-    const error = validate(data, [
+    const newError = validate(data, [
       { key: 'email', type: 'required', message: 'Please input your email' },
       { key: 'email', type: 'pattern', regex: /^.+@.+$/, message: 'The email is incorrect' },
       { key: 'code', type: 'required', message: 'Please input your code' },
       { key: 'code', type: 'length', min: 6, max: 6, message: 'The code is incorrect' },
     ])
-    setError(error)
-    if (hasError(error)) {
+    setError(newError)
+    if (!hasError(newError)) {
       await ajax.post('/api/v1/sign_in', data)
       nav('/home')
     }
