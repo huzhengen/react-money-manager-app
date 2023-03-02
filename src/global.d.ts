@@ -30,3 +30,13 @@ interface Item {
   kind: 'expenses' | 'income'
   deleted_at?: string
 }
+interface Tag {
+  id: number
+  user_id: number
+  name: string
+  sign: string
+  created_at: string
+  updated_at: string
+  kind: Item['kind']
+  deleted_at?: string
+}
