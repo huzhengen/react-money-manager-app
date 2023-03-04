@@ -8,6 +8,9 @@ export const TagsEditPage: React.FC = () => {
     <Gradient className='grow-0 shrink-0'>
       <TopNav title="View Tag" icon={<Icon name="back" />} />
     </Gradient>
-    <TagForm />
+    <TagForm type="edit" />
+    <div px-16px p-b-32px>
+      <button j-btn bg="#E10505">Delete</button>
+    </div>
   </div>)
 }

@@ -8,6 +8,6 @@ export const TagsNewPage: React.FC = () => {
     <Gradient className='grow-0 shrink-0'>
       <TopNav title="New Tag" icon={<Icon name="back" />} />
     </Gradient>
-    <TagForm />
+    <TagForm type="create" />
   </div>)
 }
