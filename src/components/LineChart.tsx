@@ -1,7 +1,15 @@
 import { useEffect, useRef } from 'react'
 import * as echarts from 'echarts'
 
-export const LineChart: React.FC = () => {
+type Props = {
+  className?: string
+  items?: { x: string; y: number }[]
+}
+
+export const LineChart: React.FC<Props> = (props) => {
+  const { className, items } = props
+  const xItems = items?.map(item => item.x)
+  const yItems = items?.map(item => item.y)
   const div = useRef<HTMLDivElement>(null)
   useEffect(() => {
     if (!div.current) { return }
@@ -9,14 +17,14 @@ export const LineChart: React.FC = () => {
     const option = {
       xAxis: {
         type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        data: xItems
       },
       yAxis: {
         type: 'value'
       },
       series: [
         {
-          data: [150, 230, 224, 218, 135, 147, 260],
+          data: yItems,
           type: 'line'
         }
       ]
@@ -24,6 +32,6 @@ export const LineChart: React.FC = () => {
     myChart.setOption(option)
   }, [])
   return (
-    <div ref={div} h-400px></div>
+    <div ref={div} className={className}></div>
   )
 }
