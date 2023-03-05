@@ -3,6 +3,7 @@ import { AddItemFloatButton } from '../components/AddItemFloatButton'
 import { Gradient } from '../components/Gradient'
 import { Icon } from '../components/Icon'
 import { LineChart } from '../components/LineChart'
+import { PieChart } from '../components/PieChart'
 import type { TimeRange } from '../components/TimeRangePicker'
 import { TimeRangePicker } from '../components/TimeRangePicker'
 import { TopNav } from '../components/TopNav'
@@ -41,6 +42,12 @@ export const StatisticsPage: React.FC = () => {
     { date: '2023-01-29', value: 155000 },
     { date: '2023-01-31', value: 165000 },
   ].map(item => ({ x: item.date, y: item.value / 100 }))
+  const items2 = [
+    { tag: 'By a phone', amount: 30000 },
+    { tag: 'Eating', amount: 10000 },
+    { tag: 'Take a taxi', amount: 20000 },
+    { tag: 'Shopping', amount: 48800 },
+  ].map(item => ({ x: item.tag, y: item.amount / 100 }))
   return (<div>
     <Gradient>
       <TopNav title="Statistics" icon={<Icon name="back" />} />
@@ -48,5 +55,6 @@ export const StatisticsPage: React.FC = () => {
     <TimeRangePicker onSelect={setTimeRange} selected={timeRange} />
     <AddItemFloatButton />
     <LineChart className="h-120px" items={items} />
+    <PieChart className="h-260px" items={items2} />
   </div>)
 }
