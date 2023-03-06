@@ -32,7 +32,7 @@ export const SignInPage: React.FC = () => {
     ])
     setError(newError)
     if (!hasError(newError)) {
-      // ajax
+      await ajax.post('/api/v1/validation_code', { email: data.email })
     }
   }
   return (<div>
