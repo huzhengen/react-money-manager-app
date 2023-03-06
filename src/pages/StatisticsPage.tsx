@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import { AddItemFloatButton } from '../components/AddItemFloatButton'
 import { Gradient } from '../components/Gradient'
 import { Icon } from '../components/Icon'
 import { LineChart } from '../components/LineChart'
 import { PieChart } from '../components/PieChart'
+import { RankChart } from '../components/RankChart'
 import type { TimeRange } from '../components/TimeRangePicker'
 import { TimeRangePicker } from '../components/TimeRangePicker'
 import { TopNav } from '../components/TopNav'
@@ -43,18 +43,24 @@ export const StatisticsPage: React.FC = () => {
     { date: '2023-01-31', value: 165000 },
   ].map(item => ({ x: item.date, y: item.value / 100 }))
   const items2 = [
-    { tag: 'By a phone', amount: 30000 },
-    { tag: 'Eating', amount: 10000 },
-    { tag: 'Take a taxi', amount: 20000 },
-    { tag: 'Shopping', amount: 48800 },
-  ].map(item => ({ x: item.tag, y: item.amount / 100 }))
+    { tag: { name: 'By a phone', sign: '📱' }, amount: 10000 },
+    { tag: { name: 'Eating', sign: '🍲' }, amount: 20000 },
+    { tag: { name: 'Take a taxi', sign: '🚕' }, amount: 68800 },
+    { tag: { name: 'Shopping', sign: '🛒' }, amount: 38800 },
+  ].map(item => ({ x: item.tag.name, y: item.amount / 100 }))
+  const items3 = [
+    { tag: { name: 'By a phone', sign: '📱' }, amount: 10000 },
+    { tag: { name: 'Eating', sign: '🍲' }, amount: 20000 },
+    { tag: { name: 'Take a taxi', sign: '🚕' }, amount: 68800 },
+    { tag: { name: 'Shopping', sign: '🛒' }, amount: 38800 },
+  ].map(item => ({ name: item.tag.name, value: item.amount, sign: item.tag.sign }))
   return (<div>
     <Gradient>
       <TopNav title="Statistics" icon={<Icon name="back" />} />
     </Gradient>
     <TimeRangePicker onSelect={setTimeRange} selected={timeRange} />
-    <AddItemFloatButton />
     <LineChart className="h-120px" items={items} />
-    <PieChart className="h-260px" items={items2} />
+    <PieChart className="h-260px m-t-16px" items={items2} />
+    <RankChart className="m-t-8px" items={items3} />
   </div>)
 }
