@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Gradient } from '../components/Gradient'
 import { Icon } from '../components/Icon'
+import { Input } from '../components/Input'
 import { LineChart } from '../components/LineChart'
 import { PieChart } from '../components/PieChart'
 import { RankChart } from '../components/RankChart'
@@ -54,11 +55,21 @@ export const StatisticsPage: React.FC = () => {
     { tag: { name: 'Take a taxi', sign: '🚕' }, amount: 68800 },
     { tag: { name: 'Shopping', sign: '🛒' }, amount: 38800 },
   ].map(item => ({ name: item.tag.name, value: item.amount, sign: item.tag.sign }))
+  const [value, setValue] = useState('expenses')
   return (<div>
     <Gradient>
       <TopNav title="Statistics" icon={<Icon name="back" />} />
     </Gradient>
     <TimeRangePicker onSelect={setTimeRange} selected={timeRange} />
+    <div flex p-16px items-center gap-x-16px>
+      <span grow-0 shrink-0>Type</span>
+      <div grow-1 shrink-1>
+        <Input type="select" options={[
+          { text: 'expenses', value: 'expenses' },
+          { text: 'income', value: 'income' },
+        ]} value={value} onChange={value => setValue(value)} disableError />
+      </div>
+    </div>
     <LineChart className="h-120px" items={items} />
     <PieChart className="h-260px m-t-16px" items={items2} />
     <RankChart className="m-t-8px" items={items3} />
