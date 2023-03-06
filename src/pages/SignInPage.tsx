@@ -25,6 +25,16 @@ export const SignInPage: React.FC = () => {
       nav('/home')
     }
   }
+  const sendCode = async () => {
+    const newError = validate({ email: data.email }, [
+      { key: 'email', type: 'required', message: 'Please input your email' },
+      { key: 'email', type: 'pattern', regex: /^.+@.+$/, message: 'The email is incorrect' },
+    ])
+    setError(newError)
+    if (!hasError(newError)) {
+      // ajax
+    }
+  }
   return (<div>
     <Gradient>
       <TopNav title='Sign In' icon={<Icon name="back" onClick={() => { }} />} />
@@ -34,10 +44,11 @@ export const SignInPage: React.FC = () => {
       <h1 text-32px text="#7878FF" font-bold>Money Manager</h1>
     </div>
     <form j-form onSubmit={onSubmit}>
-      <Input label='Email' value={data.email} placeholder='Email'
+      <Input label='Email' value={data.email} placeholder='Email' type="text"
         onChange={value => setData({ email: value })} error={error.email?.[0]} />
       <Input label='Code' value={data.code} placeholder='Enter 6-digit code' type='sms_code'
-        onChange={value => setData({ code: value })} error={error.code?.[0]} />
+        onChange={value => setData({ code: value })} error={error.code?.[0]}
+        onClick={sendCode} />
       <div mt-100px>
         <button j-btn type="submit">Sign In</button>
       </div>

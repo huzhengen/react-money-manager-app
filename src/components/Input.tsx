@@ -11,12 +11,12 @@ type Props = {
 } & (
   | { type: 'text' }
   | { type: 'emoji' }
-  | { type: 'sms_code' }
+  | { type: 'sms_code'; onClick: () => void }
   | { type: 'select'; options: { value: string; text: string }[] }
 )
 
 export const Input: React.FC<Props> = (props) => {
-  const { label, placeholder, type = 'text', value, onChange, error, disableError } = props
+  const { label, placeholder, type, value, onChange, error, disableError } = props
   const renderInput = () => {
     switch (props.type) {
       case undefined:
@@ -37,7 +37,7 @@ export const Input: React.FC<Props> = (props) => {
           <div flex gap-x-16px>
             <input j-input-text type="text" placeholder={placeholder}
               value={value} onChange={e => onChange?.(e.target.value)} />
-            <button j-btn>Send Code</button>
+            <button type="button" j-btn onClick={props.onClick}>Send Code</button>
           </div>
         )
       default:
