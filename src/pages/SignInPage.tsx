@@ -32,7 +32,7 @@ export const SignInPage: React.FC = () => {
     ])
     setError(newError)
     if (!hasError(newError)) {
-      await ajax.post('/api/v1/validation_code', { email: data.email })
+      return await ajax.post('/api/v1/validation_code', { email: data.email })
     }
   }
   return (<div>
@@ -48,7 +48,7 @@ export const SignInPage: React.FC = () => {
         onChange={value => setData({ email: value })} error={error.email?.[0]} />
       <Input label='Code' value={data.code} placeholder='Enter 6-digit code' type='sms_code'
         onChange={value => setData({ code: value })} error={error.code?.[0]}
-        onClick={sendCode} />
+        request={sendCode} />
       <div mt-100px>
         <button j-btn type="submit">Sign In</button>
       </div>
