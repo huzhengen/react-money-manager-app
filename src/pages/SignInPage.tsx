@@ -1,3 +1,4 @@
+import type { AxiosError } from 'axios'
 import type { FormEventHandler } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Gradient } from '../components/Gradient'
@@ -7,6 +8,10 @@ import { TopNav } from '../components/TopNav'
 import { ajax } from '../lib/ajax'
 import { hasError, validate } from '../lib/validate'
 import { useSignInStore } from '../stores/useSignInStore'
+
+const onSubmitError = (err: AxiosError) => {
+  throw err
+}
 
 export const SignInPage: React.FC = () => {
   const { data, error, setData, setError } = useSignInStore()
@@ -21,7 +26,9 @@ export const SignInPage: React.FC = () => {
     ])
     setError(newError)
     if (!hasError(newError)) {
-      await ajax.post('/api/v1/sign_in', data)
+      const response = await ajax.post<{ jwt: string }>('/api/v1/sign_in', data)
+        .catch(onSubmitError)
+      localStorage.setItem('jwt', response.data.jwt)
       nav('/home')
     }
   }
@@ -46,6 +53,7 @@ export const SignInPage: React.FC = () => {
     <form j-form onSubmit={onSubmit}>
       <Input label='Email' value={data.email} placeholder='Email' type="text"
         onChange={value => setData({ email: value })} error={error.email?.[0]} />
+      <span text-gray text-13px>You can sign in using the default verification code 123456</span>
       <Input label='Code' value={data.code} placeholder='Enter 6-digit code' type='sms_code'
         onChange={value => setData({ code: value })} error={error.code?.[0]}
         request={sendCode} />
