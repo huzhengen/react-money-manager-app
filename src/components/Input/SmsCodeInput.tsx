@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 type Props = {
   placeholder?: string
@@ -7,30 +7,43 @@ type Props = {
   request?: () => Promise<unknown>
 }
 
+const maxCount = 60
+
 export const SmsCodeInput: React.FC<Props> = (props) => {
   const { placeholder, value, onChange, request } = props
-  const [started, setStarted] = useState(false)
-  const [count, setCount] = useState(5)
+  const [started, setStarted] = useState<Date>()
+  const [count, setCount] = useState(maxCount)
+  const timer = useRef<number>()
+
   useEffect(() => {
-    if (!started) { return }
-    if (count < 0) {
-      setStarted(false)
-      setCount(5)
-      return
+    if (started) {
+      timer.current = window.setInterval(() => {
+        const t = new Date()
+        const seconds = Math.round((t.getTime() - started.getTime()) / 1000)
+        if (maxCount - seconds < 0) {
+          setStarted(undefined)
+        }
+        setCount(maxCount - seconds)
+      }, 1000)
+    } else {
+      if (timer.current) {
+        window.clearInterval(timer.current)
+        timer.current = undefined
+      }
     }
-
-    const timer = window.setTimeout(() => {
-      setCount(count - 1)
-    }, 1000)
-
-    return () => window.clearTimeout(timer)
-  }, [started, count])
+    return () => {
+      if (timer.current) {
+        window.clearInterval(timer.current)
+        timer.current = undefined
+      }
+    }
+  }, [started])
 
   const onClick = async () => {
     if (!request) { return }
     const res = await request()
     if (res) {
-      setStarted(true)
+      setStarted(new Date())
     }
   }
   return (
@@ -38,7 +51,7 @@ export const SmsCodeInput: React.FC<Props> = (props) => {
       <input j-input-text type="text" placeholder={placeholder}
         value={value} onChange={e => onChange?.(e.target.value)} />
       {started
-        ? <button type="button" j-btn>{count}</button>
+        ? <button type="button" j-btn disabled bg-gray>{count}</button>
         : <button type="button" j-btn onClick={onClick}>Send Code</button>}
     </div>
   )
