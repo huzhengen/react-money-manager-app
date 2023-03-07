@@ -10,9 +10,14 @@ type Props = {
 export const SmsCodeInput: React.FC<Props> = (props) => {
   const { placeholder, value, onChange, request } = props
   const [started, setStarted] = useState(false)
-  const [count, setCount] = useState(60)
+  const [count, setCount] = useState(5)
   useEffect(() => {
     if (!started) { return }
+    if (count < 0) {
+      setStarted(false)
+      setCount(5)
+      return
+    }
 
     const timer = window.setTimeout(() => {
       setCount(count - 1)
@@ -21,30 +26,20 @@ export const SmsCodeInput: React.FC<Props> = (props) => {
     return () => window.clearTimeout(timer)
   }, [started, count])
 
-  useEffect(() => {
-    if (count === 0) {
-      setStarted(false)
-      setCount(60)
-      return
-    }
-    if (!started) { return }
-
-    const timer = window.setTimeout(() => {
-      setCount(count - 1)
-    }, 1000)
-
-    return () => window.clearTimeout(timer)
-  }, [count])
   const onClick = async () => {
     if (!request) { return }
-    await request()
-    setStarted(true)
+    const res = await request()
+    if (res) {
+      setStarted(true)
+    }
   }
   return (
     <div flex gap-x-16px>
       <input j-input-text type="text" placeholder={placeholder}
         value={value} onChange={e => onChange?.(e.target.value)} />
-      <button type="button" j-btn onClick={onClick}>Send Code</button>
+      {started
+        ? <button type="button" j-btn>{count}</button>
+        : <button type="button" j-btn onClick={onClick}>Send Code</button>}
     </div>
   )
 }
