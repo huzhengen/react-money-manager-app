@@ -14,36 +14,32 @@ export const SmsCodeInput: React.FC<Props> = (props) => {
   const [started, setStarted] = useState<Date>()
   const [count, setCount] = useState(maxCount)
   const timer = useRef<number>()
-
+  const clearTimer = () => {
+    if (timer.current) {
+      window.clearInterval(timer.current)
+      timer.current = undefined
+    }
+  }
   useEffect(() => {
-    if (started) {
-      timer.current = window.setInterval(() => {
-        const t = new Date()
-        const seconds = Math.round((t.getTime() - started.getTime()) / 1000)
-        if (maxCount - seconds < 0) {
-          setStarted(undefined)
-        }
-        setCount(maxCount - seconds)
-      }, 1000)
-    } else {
-      if (timer.current) {
-        window.clearInterval(timer.current)
-        timer.current = undefined
-      }
+    if (!started) {
+      clearTimer()
+      return
     }
-    return () => {
-      if (timer.current) {
-        window.clearInterval(timer.current)
-        timer.current = undefined
-      }
-    }
+    timer.current = window.setInterval(() => {
+      const seconds = Math.round((new Date().getTime() - started.getTime()) / 1000)
+      const count = maxCount - seconds
+      if (count < 0) { setStarted(undefined) }
+      setCount(count)
+    }, 1000)
+    return clearTimer
   }, [started])
 
   const onClick = async () => {
     if (!request) { return }
     const res = await request()
+    setStarted(new Date())
     if (res) {
-      setStarted(new Date())
+      // setStarted(new Date())
     }
   }
   return (
@@ -51,7 +47,7 @@ export const SmsCodeInput: React.FC<Props> = (props) => {
       <input j-input-text type="text" placeholder={placeholder}
         value={value} onChange={e => onChange?.(e.target.value)} />
       {started
-        ? <button type="button" j-btn disabled bg-gray>{count}</button>
+        ? <button type="button" j-btn disabled bg-gray>{count}s</button>
         : <button type="button" j-btn onClick={onClick}>Send Code</button>}
     </div>
   )
