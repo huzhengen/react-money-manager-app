@@ -27,8 +27,10 @@ export const SignInPage: React.FC = () => {
     ])
     setError(newError)
     if (!hasError(newError)) {
+      // Sign in
       const response = await ajax.post<{ jwt: string }>('/api/v1/sign_in', data)
         .catch(onSubmitError)
+      // Putting jwt into localstorage
       localStorage.setItem('jwt', response.data.jwt)
       nav('/home')
     }
