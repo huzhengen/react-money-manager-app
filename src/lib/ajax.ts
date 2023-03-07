@@ -4,6 +4,16 @@ axios.defaults.baseURL = isDev ? 'http://121.196.236.94:3000' : 'http://121.196.
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 axios.defaults.timeout = 10000
 
+axios.interceptors.request.use((config) => {
+  config.headers = config.headers || {}
+  const jwt = localStorage.getItem('jwt') || ''
+  if (jwt) {
+    config.headers.Authorization = `Bearer ${jwt}`
+  }
+  return config
+}, () => {
+})
+
 export const ajax = {
   get: <T>(path: string) => {
     return axios.get<T>(path)
