@@ -37,9 +37,8 @@ export const SmsCodeInput: React.FC<Props> = (props) => {
   const onClick = async () => {
     if (!request) { return }
     const res = await request()
-    setStarted(new Date())
     if (res) {
-      // setStarted(new Date())
+      setStarted(new Date())
     }
   }
   return (
