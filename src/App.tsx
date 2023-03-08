@@ -1,6 +1,7 @@
 import { RouterProvider } from 'react-router-dom'
 import vhCheck from 'vh-check'
 import styled from 'styled-components'
+import { createContext } from 'react'
 import { router } from './routes/router'
 import './global.scss'
 import 'virtual:uno.css'
@@ -18,6 +19,11 @@ const Spin = styled(Icon)`
   }
 `
 
+export const LoadingContext = createContext({
+  show: () => { },
+  hide: () => { }
+})
+
 export const App: React.FC = () => {
   const { popup, hide, show } = usePopup({
     children: <div p-16px>
@@ -26,7 +32,9 @@ export const App: React.FC = () => {
     position: 'center'
   })
   return (<div>
-    <RouterProvider router={router} />
-    {popup}
+    <LoadingContext.Provider value={{ show, hide }}>
+      <RouterProvider router={router} />
+      {popup}
+    </LoadingContext.Provider>
   </div>)
 }

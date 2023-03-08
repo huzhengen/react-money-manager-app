@@ -1,7 +1,9 @@
 import type { AxiosError } from 'axios'
 import axios from 'axios'
 import type { FormEventHandler } from 'react'
+import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { LoadingContext } from '../App'
 import { Gradient } from '../components/Gradient'
 import { Icon } from '../components/Icon'
 import { Input } from '../components/Input'
@@ -37,6 +39,8 @@ export const SignInPage: React.FC = () => {
     }
   }
 
+  const { show, hide } = useContext(LoadingContext)
+
   const sendCode = async () => {
     const newError = validate({ email: data.email }, [
       { key: 'email', type: 'required', message: 'Please input your email' },
@@ -44,9 +48,10 @@ export const SignInPage: React.FC = () => {
     ])
     setError(newError)
     if (hasError(newError)) { throw new Error('Form error') }
-    const response = await axios.post('http://121.196.236.94:8080/api/v1/validation_codes', {
+    show()
+    const response = await axios.post('/api/v1/validation_codes', {
       email: data.email
-    })
+    }).finally(hide)
     return response
   }
   return (<div>
