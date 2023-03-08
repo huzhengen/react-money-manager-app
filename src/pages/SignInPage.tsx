@@ -1,14 +1,11 @@
 import type { AxiosError } from 'axios'
-import axios from 'axios'
 import type { FormEventHandler } from 'react'
-import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { LoadingContext } from '../App'
 import { Gradient } from '../components/Gradient'
 import { Icon } from '../components/Icon'
 import { Input } from '../components/Input'
 import { TopNav } from '../components/TopNav'
-import { ajax } from '../lib/ajax'
+import { useAjax } from '../lib/ajax'
 import type { FormError } from '../lib/validate'
 import { hasError, validate } from '../lib/validate'
 import { useSignInStore } from '../stores/useSignInStore'
@@ -20,6 +17,8 @@ export const SignInPage: React.FC = () => {
     setError(err.response?.data.errors ?? {})
     throw err
   }
+  const { post: postWithLoading } = useAjax({ showLoading: true })
+  const { post: postWithoutLoading } = useAjax({ showLoading: false })
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault()
     const newError = validate(data, [
@@ -31,15 +30,13 @@ export const SignInPage: React.FC = () => {
     setError(newError)
     if (!hasError(newError)) {
       // Sign in
-      const response = await ajax.post<{ jwt: string }>('/api/v1/sign_in', data)
+      const response = await postWithoutLoading<{ jwt: string }>('/api/v1/sign_in', data)
         .catch(onSubmitError)
       // Putting jwt into localstorage
       localStorage.setItem('jwt', response.data.jwt)
       nav('/home')
     }
   }
-
-  const { show, hide } = useContext(LoadingContext)
 
   const sendCode = async () => {
     const newError = validate({ email: data.email }, [
@@ -48,10 +45,9 @@ export const SignInPage: React.FC = () => {
     ])
     setError(newError)
     if (hasError(newError)) { throw new Error('Form error') }
-    show()
-    const response = await axios.post('/api/v1/validation_codes', {
+    const response = await postWithLoading('/api/v1/validation_codes', {
       email: data.email
-    }).finally(hide)
+    })
     return response
   }
   return (<div>
