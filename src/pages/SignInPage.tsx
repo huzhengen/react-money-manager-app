@@ -2,6 +2,7 @@ import type { AxiosError } from 'axios'
 import axios from 'axios'
 import type { FormEventHandler } from 'react'
 import { useNavigate } from 'react-router-dom'
+import styled from 'styled-components'
 import { Gradient } from '../components/Gradient'
 import { Icon } from '../components/Icon'
 import { Input } from '../components/Input'
@@ -37,7 +38,19 @@ export const SignInPage: React.FC = () => {
       nav('/home')
     }
   }
-  const { popup, hide, show } = usePopup({ children: <div>Loading</div>, position: 'center' })
+  const Spin = styled(Icon)`
+    animation: spin 1s linear infinite;
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+  `
+  const { popup, hide, show } = usePopup({
+    children: <div p-16px>
+      <Spin className="w-32px h-32px" name="loading" />
+    </div>,
+    position: 'center'
+  })
   const sendCode = async () => {
     const newError = validate({ email: data.email }, [
       { key: 'email', type: 'required', message: 'Please input your email' },
