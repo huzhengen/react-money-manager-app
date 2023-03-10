@@ -18,23 +18,28 @@ axios.interceptors.request.use((config) => {
 
 type Options = {
   showLoading?: boolean
+  handleError?: boolean
 }
 
 export const useAjax = (options?: Options) => {
   const nav = useNavigate()
-  const table: Record<number, undefined | (() => void)> = {
+  const table: Record<string, undefined | (() => void)> = {
     401: () => nav('/sign_in'),
     402: () => window.alert('Payment Required'),
     403: () => window.alert('Forbidden'),
     404: () => window.alert('Not Found'),
+    unknown: () => window.alert('Unknown error')
   }
   const showLoading = options?.showLoading || false
+  const handleError = options?.handleError ?? true
   const { setVisible } = useLoadingStore()
   const onError = (error: AxiosError) => {
     if (error.response) {
-      const { status } = error.response
-      const fn = table[status]
-      if (fn) { fn() } else { window.alert('Unknown error') }
+      if (handleError) {
+        const { status } = error.response
+        const fn = table[status] || table.unknown
+        fn?.()
+      }
     }
     throw error
   }
