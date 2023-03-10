@@ -1,6 +1,6 @@
 import type { AxiosError } from 'axios'
 import axios from 'axios'
-import { createBrowserRouter } from 'react-router-dom'
+import { Outlet, createBrowserRouter } from 'react-router-dom'
 import { preload } from 'swr'
 import { Root } from '../components/Root'
 import { ErrorEmptyData, ErrorUnauthorized } from '../errors'
@@ -32,38 +32,42 @@ export const router = createBrowserRouter([
       { path: '4', element: <Welcome4 /> },
     ]
   },
+  { path: '/sign_in', element: <SignInPage /> },
   {
-    path: '/items',
-    element: <ItemsPage />,
-    errorElement: <ItemsPageError />,
-    loader: async () => {
-      return preload('/api/v1/items?page=1', async () => {
-        const onError = (error: AxiosError) => {
-          if (error.response?.status === 401) { throw new ErrorUnauthorized() }
-          throw error
-        }
-        const response = await axios.get<Resources<Item>>('/api/v1/items?page=1').catch(onError)
-        if (response.data.resources.length > 0) {
-          return response.data
-        } else {
-          throw new ErrorEmptyData()
-        }
-      })
-    }
-  },
-  {
-    path: '/items/new',
-    element: <ItemsNewPage />,
+    path: '/',
+    element: <Outlet />,
     errorElement: <ErrorPage />,
     loader: async () =>
       preload('/api/v1/me', path => axios.get<Resource<User>>(path)
-        .then(r => r.data, () => { throw new ErrorUnauthorized() }))
+        .then(r => r.data, () => { throw new ErrorUnauthorized() })),
+    children: [
+      {
+        path: '/items',
+        element: <ItemsPage />,
+        errorElement: <ItemsPageError />,
+        loader: async () => {
+          return preload('/api/v1/items?page=1', async () => {
+            const onError = (error: AxiosError) => {
+              if (error.response?.status === 401) { throw new ErrorUnauthorized() }
+              throw error
+            }
+            const response = await axios.get<Resources<Item>>('/api/v1/items?page=1').catch(onError)
+            if (response.data.resources.length > 0) {
+              return response.data
+            } else {
+              throw new ErrorEmptyData()
+            }
+          })
+        }
+      },
+      { path: '/items/new', element: <ItemsNewPage /> },
+      { path: '/statistics', element: <StatisticsPage /> },
+      { path: '/export', element: <div>Under Construction</div> },
+      { path: '/tags', element: <div>Tags</div> },
+      { path: '/tags/new', element: <TagsNewPage /> },
+      { path: '/tags/:id', element: <TagsEditPage /> },
+      { path: '/noty', element: <div>Under Construction</div> },
+    ],
   },
-  { path: '/sign_in', element: <SignInPage /> },
-  { path: '/statistics', element: <StatisticsPage /> },
-  { path: '/export', element: <div>Under Construction</div> },
-  { path: '/tags', element: <div>Tags</div> },
-  { path: '/tags/new', element: <TagsNewPage /> },
-  { path: '/tags/:id', element: <TagsEditPage /> },
-  { path: '/noty', element: <div>Under Construction</div> },
+
 ])
