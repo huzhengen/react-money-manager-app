@@ -21,21 +21,20 @@ type Options = {
 }
 
 export const useAjax = (options?: Options) => {
+  const nav = useNavigate()
+  const table: Record<number, undefined | (() => void)> = {
+    401: () => nav('/sign_in'),
+    402: () => window.alert('Payment Required'),
+    403: () => window.alert('Forbidden'),
+    404: () => window.alert('Not Found'),
+  }
   const showLoading = options?.showLoading || false
   const { setVisible } = useLoadingStore()
-  const nav = useNavigate()
   const onError = (error: AxiosError) => {
     if (error.response) {
       const { status } = error.response
-      if (status === 401) {
-        nav('/sign_in')
-      } else if (status === 402) {
-        console.log('Payment Required')
-      } else if (status === 403) {
-        console.log('Forbidden')
-      } else if (status === 404) {
-        console.log('Not Found')
-      }
+      const fn = table[status]
+      if (fn) { fn() } else { window.alert('Unknown error') }
     }
     throw error
   }
