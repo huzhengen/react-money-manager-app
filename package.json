@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build --base=/react-money-manager-app/",
+    "build": "tsc && vite build",
+    "buildToGitHub": "tsc && vite build --base=/react-money-manager-app/",
     "preview": "vite preview",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
