@@ -34,7 +34,7 @@ export const SignInPage: React.FC = () => {
         .catch(onSubmitError)
       // Putting jwt into localstorage
       localStorage.setItem('jwt', response.data.jwt)
-      nav('/home')
+      nav('/items')
     }
   }
 
