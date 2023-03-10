@@ -1,6 +1,6 @@
 import type { AxiosError } from 'axios'
 import type { FormEventHandler } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Gradient } from '../components/Gradient'
 import { Icon } from '../components/Icon'
 import { Input } from '../components/Input'
@@ -13,6 +13,7 @@ import { useSignInStore } from '../stores/useSignInStore'
 export const SignInPage: React.FC = () => {
   const { data, error, setData, setError } = useSignInStore()
   const nav = useNavigate()
+  const [searchParams] = useSearchParams()
   const onSubmitError = (err: AxiosError<{ errors: FormError<typeof data> }>) => {
     setError(err.response?.data.errors ?? {})
     throw err
@@ -34,7 +35,8 @@ export const SignInPage: React.FC = () => {
         .catch(onSubmitError)
       // Putting jwt into localstorage
       localStorage.setItem('jwt', response.data.jwt)
-      nav('/items')
+      const from = searchParams.get('from') || '/items'
+      nav(from)
     }
   }
 
