@@ -5,6 +5,7 @@ import { preload } from 'swr'
 import { Root } from '../components/Root'
 import { ErrorEmptyData, ErrorUnauthorized } from '../errors'
 import { WelcomeLayout } from '../layouts/WelcomeLayout'
+import { ErrorPage } from '../pages/ErrorPage'
 import { Home } from '../pages/Home'
 import { ItemsNewPage } from '../pages/ItemsNewPage'
 import { ItemsPage } from '../pages/ItemsPage'
@@ -50,7 +51,14 @@ export const router = createBrowserRouter([
       })
     }
   },
-  { path: '/items/new', element: <ItemsNewPage /> },
+  {
+    path: '/items/new',
+    element: <ItemsNewPage />,
+    errorElement: <ErrorPage />,
+    loader: async () =>
+      preload('/api/v1/me', path => axios.get<Resource<User>>(path)
+        .then(r => r.data, () => { throw new ErrorUnauthorized() }))
+  },
   { path: '/sign_in', element: <SignInPage /> },
   { path: '/statistics', element: <StatisticsPage /> },
   { path: '/export', element: <div>Under Construction</div> },
