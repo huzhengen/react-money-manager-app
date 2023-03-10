@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 rm -rf dist
-pnpm run build
+pnpm run buildToGitHub
 cd dist
 git init
 git add .
