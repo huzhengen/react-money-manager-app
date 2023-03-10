@@ -30,7 +30,7 @@ export const SignInPage: React.FC = () => {
     setError(newError)
     if (!hasError(newError)) {
       // Sign in
-      const response = await postWithoutLoading<{ jwt: string }>('/api/v1/sign_in', data)
+      const response = await postWithoutLoading<{ jwt: string }>('http://121.196.236.94:3000/api/v1/session', data)
         .catch(onSubmitError)
       // Putting jwt into localstorage
       localStorage.setItem('jwt', response.data.jwt)
@@ -59,9 +59,10 @@ export const SignInPage: React.FC = () => {
       <h1 text-32px text="#7878FF" font-bold>Money Manager</h1>
     </div>
     <form j-form onSubmit={onSubmit}>
+      <span text-gray text-13px>Test Account: test@test.com</span>
       <Input label='Email' value={data.email} placeholder='Email' type="text"
         onChange={value => setData({ email: value })} error={error.email?.[0]} />
-      <span text-gray text-13px>You can sign in using the default verification code 123456</span>
+      <span text-gray text-13px>Test Verification Code: 123456</span>
       <Input label='Code' value={data.code} placeholder='Enter 6-digit code' type='sms_code'
         onChange={value => setData({ code: value })} error={error.code?.[0]}
         request={sendCode} />
