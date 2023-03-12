@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react'
-import { useState } from 'react'
 import styled from 'styled-components'
 import { Gradient } from '../components/Gradient'
 import { Icon } from '../components/Icon'
@@ -16,18 +15,17 @@ const StyledTabs = styled(Tabs)`
 `
 
 export const ItemsNewPage: React.FC = () => {
-  // const [tabItem, setTabItem] = useState<Item['kind']>('expenses')
   const { data, setData } = useCreateItemStore()
   const tabItems: { key: Item['kind']; text: string; element?: ReactNode }[] = [
     {
       key: 'expenses',
       text: 'expenses',
-      element: <Tags kind='expenses' onChange={tag_ids => setData({ tag_ids })} />
+      element: <Tags kind='expenses' value={data.tag_ids} onChange={tag_ids => setData({ tag_ids })} />
     },
     {
       key: 'income',
       text: 'income',
-      element: <Tags kind='income' onChange={tag_ids => setData({ tag_ids })} />
+      element: <Tags kind='income' value={data.tag_ids} onChange={tag_ids => setData({ tag_ids })} />
     },
   ]
   return (
@@ -39,7 +37,6 @@ export const ItemsNewPage: React.FC = () => {
         className="text-center grow-1 shrink-1 overflow-hidden" classPrefix='tabs'
         value={data.kind!}
         onChange={tabItem => setData({ kind: tabItem as Item['kind'] })} />
-      {JSON.stringify(data)}
       <DateAndAmount className='grow-0 shrink-0' />
     </div>
   )

@@ -8,7 +8,7 @@ type Props = {
 }
 
 export const Tags: React.FC<Props> = (props) => {
-  const { kind, onChange } = props
+  const { kind, value, onChange } = props
   const tags = Array.from({ length: 93 }).map<Tag>((tag, index) => ({
     id: index,
     name: `Taxi${index}`,
@@ -33,8 +33,12 @@ export const Tags: React.FC<Props> = (props) => {
       {tags.map((tag, index) =>
         <li key={index} w-48px flex justify-center items-center
           flex-col gap-y-8px onClick={() => onChange?.([tag.id])}>
-          <span block w-48px h-48px rounded="24px" bg="#EFEFEF"
-            flex justify-center items-center text-24px b-1 b="#8F4CD7">{tag.sign}</span>
+          {value?.includes(tag.id)
+            ? <span block w-48px h-48px rounded="24px" bg="#EFEFEF"
+              flex justify-center items-center text-24px b-1 b="#8F4CD7">{tag.sign}</span>
+            : <span block w-48px h-48px rounded="24px" bg="#EFEFEF"
+              flex justify-center items-center text-24px b-1 b-transparent>{tag.sign}</span>
+          }
           <span text-14px text="#666">{tag.name}</span>
         </li>
       )}
