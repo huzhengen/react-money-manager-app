@@ -1,11 +1,14 @@
+import type { ReactNode } from 'react'
 import { useState } from 'react'
-import { ItemDate } from './ItemDate'
 
 type Props = {
   className?: string
+  itemDate: ReactNode
 }
 
 export const DateAndAmount: React.FC<Props> = (props) => {
+  const { className, itemDate } = props
+
   const [output, _setOutput] = useState('0')
   const setOutput = (str: string) => {
     const dotIndex = str.indexOf('.')
@@ -13,7 +16,6 @@ export const DateAndAmount: React.FC<Props> = (props) => {
     if (str.length > 16) { return }
     _setOutput(str)
   }
-  const { className } = props
 
   const append = (char: string) => {
     switch (char) {
@@ -36,7 +38,7 @@ export const DateAndAmount: React.FC<Props> = (props) => {
     <>
       <div className={className}>
         <div flex p-t-15px p-b-16px px-16px border-t-1px border-t="#ddd" gap-x-8px items-center>
-          <ItemDate />
+          {itemDate}
           <code grow-1 shrink-1 text-right color="#53A867">{output}</code>
         </div>
         <div py-1px grid children-b-none children-bg-white
