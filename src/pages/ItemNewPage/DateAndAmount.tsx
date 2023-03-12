@@ -1,15 +1,11 @@
 import { useState } from 'react'
-import { Datepicker } from '../../components/Datepicker'
-import { Icon } from '../../components/Icon'
-import { usePopup } from '../../hooks/usePopup'
-import { time } from '../../lib/time'
+import { ItemDate } from './ItemDate'
 
 type Props = {
   className?: string
 }
 
 export const DateAndAmount: React.FC<Props> = (props) => {
-  const [date, setDate] = useState(new Date())
   const [output, _setOutput] = useState('0')
   const setOutput = (str: string) => {
     const dotIndex = str.indexOf('.')
@@ -18,11 +14,7 @@ export const DateAndAmount: React.FC<Props> = (props) => {
     _setOutput(str)
   }
   const { className } = props
-  const { popup, toggle, hide } = usePopup({
-    children: <Datepicker
-      onConfirm={(d) => { setDate(d); hide() }}
-      onCancel={() => hide()} />
-  })
+
   const append = (char: string) => {
     switch (char) {
       case '0':
@@ -44,10 +36,7 @@ export const DateAndAmount: React.FC<Props> = (props) => {
     <>
       <div className={className}>
         <div flex p-t-15px p-b-16px px-16px border-t-1px border-t="#ddd" gap-x-8px items-center>
-          <span flex items-center gap-x-8px onClick={toggle}>
-            <Icon name="calendar" className="w-24px h-24px grow-0 shrink-0" />
-            <span grow-0 shrink-0 color="#999">{time(date).format()}</span>
-          </span>
+          <ItemDate />
           <code grow-1 shrink-1 text-right color="#53A867">{output}</code>
         </div>
         <div py-1px grid children-b-none children-bg-white
@@ -68,7 +57,6 @@ export const DateAndAmount: React.FC<Props> = (props) => {
             bg="#5C33BE" text-white onClick={() => { }}>Submit</button>
         </div>
       </div>
-      {popup}
     </>
   )
 }
