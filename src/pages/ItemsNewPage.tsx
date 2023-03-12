@@ -15,14 +15,21 @@ const StyledTabs = styled(Tabs)`
   .tabs-menu-pane {}
 `
 
-const tabItems: { key: Item['kind']; text: string; element?: ReactNode }[] = [
-  { key: 'expenses', text: 'expenses', element: <Tags kind='expenses' /> },
-  { key: 'income', text: 'income', element: <Tags kind='income' /> },
-]
-
 export const ItemsNewPage: React.FC = () => {
-  const [tabItem, setTabItem] = useState<Item['kind']>('expenses')
-  const { data, error, setData, setError } = useCreateItemStore()
+  // const [tabItem, setTabItem] = useState<Item['kind']>('expenses')
+  const { data, setData } = useCreateItemStore()
+  const tabItems: { key: Item['kind']; text: string; element?: ReactNode }[] = [
+    {
+      key: 'expenses',
+      text: 'expenses',
+      element: <Tags kind='expenses' onChange={tag_ids => setData({ tag_ids })} />
+    },
+    {
+      key: 'income',
+      text: 'income',
+      element: <Tags kind='income' onChange={tag_ids => setData({ tag_ids })} />
+    },
+  ]
   return (
     <div h-screen flex flex-col>
       <Gradient className='grow-0 shrink-0'>
@@ -32,6 +39,7 @@ export const ItemsNewPage: React.FC = () => {
         className="text-center grow-1 shrink-1 overflow-hidden" classPrefix='tabs'
         value={data.kind!}
         onChange={tabItem => setData({ kind: tabItem as Item['kind'] })} />
+      {JSON.stringify(data)}
       <DateAndAmount className='grow-0 shrink-0' />
     </div>
   )

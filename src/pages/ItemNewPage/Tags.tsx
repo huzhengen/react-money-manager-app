@@ -3,11 +3,22 @@ import { Icon } from '../../components/Icon'
 
 type Props = {
   kind: Item['kind']
+  value?: Item['tag_ids']
+  onChange?: (ids: Item['tag_ids']) => void
 }
 
 export const Tags: React.FC<Props> = (props) => {
-  const { kind } = props
-  const tags = Array.from({ length: 93 })
+  const { kind, onChange } = props
+  const tags = Array.from({ length: 93 }).map<Tag>((tag, index) => ({
+    id: index,
+    name: `Taxi${index}`,
+    kind: 'expenses',
+    sign: '😶',
+    user_id: 1,
+    created_at: '2023-03-01T00:00:00.000Z',
+    updated_at: '2023-03-01T00:00:00.000Z',
+    deleted_at: null
+  }))
   return (<div>
     <ol grid grid-cols="[repeat(auto-fit,48px)]" justify-center gap-x-32px
       gap-y-16px py-16px px-8px>
@@ -21,10 +32,10 @@ export const Tags: React.FC<Props> = (props) => {
       </li>
       {tags.map((tag, index) =>
         <li key={index} w-48px flex justify-center items-center
-          flex-col gap-y-8px>
+          flex-col gap-y-8px onClick={() => onChange?.([tag.id])}>
           <span block w-48px h-48px rounded="24px" bg="#EFEFEF"
-            flex justify-center items-center text-24px b-1 b="#8F4CD7">😶</span>
-          <span text-14px text="#666">taxi</span>
+            flex justify-center items-center text-24px b-1 b="#8F4CD7">{tag.sign}</span>
+          <span text-14px text="#666">{tag.name}</span>
         </li>
       )}
     </ol>

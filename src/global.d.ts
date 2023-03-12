@@ -28,7 +28,7 @@ interface Item {
   created_at: string
   updated_at: string
   kind: 'expenses' | 'income'
-  deleted_at?: string
+  deleted_at?: string | null
 }
 interface Tag {
   id: number
@@ -38,5 +38,5 @@ interface Tag {
   created_at: string
   updated_at: string
   kind: Item['kind']
-  deleted_at?: string
+  deleted_at?: string | null
 }
