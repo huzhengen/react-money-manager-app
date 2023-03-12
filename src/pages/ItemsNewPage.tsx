@@ -5,6 +5,7 @@ import { Gradient } from '../components/Gradient'
 import { Icon } from '../components/Icon'
 import { Tabs } from '../components/Tabs'
 import { TopNav } from '../components/TopNav'
+import { useCreateItemStore } from '../stores/useCreateItemStore'
 import { DateAndAmount } from './ItemNewPage/DateAndAmount'
 import { Tags } from './ItemNewPage/Tags'
 
@@ -21,6 +22,7 @@ const tabItems: { key: Item['kind']; text: string; element?: ReactNode }[] = [
 
 export const ItemsNewPage: React.FC = () => {
   const [tabItem, setTabItem] = useState<Item['kind']>('expenses')
+  const { data, error, setData, setError } = useCreateItemStore()
   return (
     <div h-screen flex flex-col>
       <Gradient className='grow-0 shrink-0'>
@@ -28,7 +30,8 @@ export const ItemsNewPage: React.FC = () => {
       </Gradient>
       <StyledTabs tabItems={tabItems}
         className="text-center grow-1 shrink-1 overflow-hidden" classPrefix='tabs'
-        value={tabItem} onChange={tabItem => setTabItem(tabItem as Item['kind'])} />
+        value={data.kind!}
+        onChange={tabItem => setData({ kind: tabItem as Item['kind'] })} />
       <DateAndAmount className='grow-0 shrink-0' />
     </div>
   )
