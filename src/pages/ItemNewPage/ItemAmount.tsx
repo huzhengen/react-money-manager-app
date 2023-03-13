@@ -6,7 +6,7 @@ type Props = {
   itemDate: ReactNode
 }
 
-export const DateAndAmount: React.FC<Props> = (props) => {
+export const ItemAmount: React.FC<Props> = (props) => {
   const { className, itemDate } = props
 
   const [output, _setOutput] = useState('0')
