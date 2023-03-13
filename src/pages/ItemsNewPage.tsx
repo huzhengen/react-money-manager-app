@@ -31,18 +31,22 @@ export const ItemsNewPage: React.FC = () => {
       element: <Tags kind='income' value={data.tag_ids} onChange={tag_ids => setData({ tag_ids })} />
     },
   ]
-  const { post: postWithoutLoading } = useAjax({ showLoading: false })
+  const { post: postWithoutLoading } = useAjax({ showLoading: true, handleError: true })
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault()
     const newError = validate(data, [
       { key: 'kind', type: 'required', message: 'Kind is required' },
-      { key: 'kind', type: 'required', message: 'Sign is required' },
+      { key: 'tag_ids', type: 'required', message: 'Sign is required' },
       { key: 'happen_at', type: 'required', message: 'Date is required' },
       { key: 'amount', type: 'required', message: 'Amount is required' },
+      { key: 'amount', type: 'notEqual', value: 0, message: 'Amount cannot be 0' },
     ])
     setError(newError)
-    if (!hasError(newError)) {
-      await postWithoutLoading('/api/v1/items', data)
+    if (hasError(newError)) {
+      const message = Object.values(newError).flat().join('\n')
+      window.alert(message)
+    } else {
+      await postWithoutLoading<Resource<Item>>('/api/v1/items', data)
     }
   }
   return (
