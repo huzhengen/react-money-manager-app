@@ -1,4 +1,5 @@
 import create from 'zustand'
+import { time } from '../lib/time'
 import type { FormError } from '../lib/validate'
 
 type Data = Item
@@ -14,7 +15,7 @@ export const useCreateItemStore = create<CreateItem>(set => ({
   data: {
     kind: 'expenses',
     tag_ids: [],
-    happen_at: '',
+    happen_at: time(new Date()).isoString,
     amount: 0,
   },
   error: {

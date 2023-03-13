@@ -1,9 +1,11 @@
-import type { ReactNode } from 'react'
+import type { FormEventHandler, ReactNode } from 'react'
 import styled from 'styled-components'
 import { Gradient } from '../components/Gradient'
 import { Icon } from '../components/Icon'
 import { Tabs } from '../components/Tabs'
 import { TopNav } from '../components/TopNav'
+import { useAjax } from '../lib/ajax'
+import { hasError, validate } from '../lib/validate'
 import { useCreateItemStore } from '../stores/useCreateItemStore'
 import { ItemAmount } from './ItemNewPage/ItemAmount'
 import { ItemDate } from './ItemNewPage/ItemDate'
@@ -16,7 +18,7 @@ const StyledTabs = styled(Tabs)`
 `
 
 export const ItemsNewPage: React.FC = () => {
-  const { data, setData } = useCreateItemStore()
+  const { data, setData, setError, } = useCreateItemStore()
   const tabItems: { key: Item['kind']; text: string; element?: ReactNode }[] = [
     {
       key: 'expenses',
@@ -29,8 +31,22 @@ export const ItemsNewPage: React.FC = () => {
       element: <Tags kind='income' value={data.tag_ids} onChange={tag_ids => setData({ tag_ids })} />
     },
   ]
+  const { post: postWithoutLoading } = useAjax({ showLoading: false })
+  const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault()
+    const newError = validate(data, [
+      { key: 'kind', type: 'required', message: 'Kind is required' },
+      { key: 'kind', type: 'required', message: 'Sign is required' },
+      { key: 'happen_at', type: 'required', message: 'Date is required' },
+      { key: 'amount', type: 'required', message: 'Amount is required' },
+    ])
+    setError(newError)
+    if (!hasError(newError)) {
+      await postWithoutLoading('/api/v1/items', data)
+    }
+  }
   return (
-    <div h-screen flex flex-col>
+    <form h-screen flex flex-col onSubmit={onSubmit}>
       <Gradient className='grow-0 shrink-0'>
         <TopNav title="New" icon={<Icon name="back" />} />
       </Gradient>
@@ -42,6 +58,6 @@ export const ItemsNewPage: React.FC = () => {
         itemDate={<ItemDate value={data.happen_at} onChange={happen_at => setData({ happen_at })} />}
         value={data.amount} onChange={amount => setData({ amount })}
       />
-    </div>
+    </form>
   )
 }
