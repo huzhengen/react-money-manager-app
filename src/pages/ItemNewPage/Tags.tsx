@@ -71,7 +71,7 @@ export const Tags: React.FC<Props> = (props) => {
       </ol>
       {error && <Div>Something went wrong. Try refreshing this page.</Div>}
       {!hasMore
-        ? <Div>No more data to display</Div>
+        ? (page === 1 && last.resources.length === 0) ? <Div>Please click on the plus sign to create a tag</Div> : <Div>No more data to display</Div>
         : isLoading
           ? <Div>Loading...</Div>
           : <Div><button j-btn onClick={onLoadMore}>Load More</button></Div>}
