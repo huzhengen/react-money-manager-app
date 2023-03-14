@@ -1,5 +1,8 @@
 import { Link } from 'react-router-dom'
+import useSWR from 'swr'
 import { Icon } from '../../components/Icon'
+import { useAjax } from '../../lib/ajax'
+import { useTagsStore } from '../../stores/useTagsStroe'
 
 type Props = {
   kind: Item['kind']
@@ -9,16 +12,12 @@ type Props = {
 
 export const Tags: React.FC<Props> = (props) => {
   const { kind, value, onChange } = props
-  const tags = Array.from({ length: 93 }).map<Tag>((tag, index) => ({
-    id: index,
-    name: `Taxi${index}`,
-    kind: 'expenses',
-    sign: '😶',
-    user_id: 1,
-    created_at: '2023-03-01T00:00:00.000Z',
-    updated_at: '2023-03-01T00:00:00.000Z',
-    deleted_at: null
-  }))
+  const { list: tags, setList } = useTagsStore()
+  const { get } = useAjax({ showLoading: true, handleError: true })
+  useSWR('/api/v1/tags', async (path) => {
+    const res = (await get<Resources<Tag>>(path)).data.resources
+    setList(res)
+  })
   return (<div>
     <ol grid grid-cols="[repeat(auto-fit,48px)]" justify-center gap-x-32px
       gap-y-16px py-16px px-8px>
