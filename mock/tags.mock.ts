@@ -5,7 +5,7 @@ export const tagsMock: MockMethod = {
   method: 'get',
   statusCode: 200,
   response: ({ query }: ResponseParams): Resources<Tag> => {
-    const tags = Array.from({ length: 20 }).map<Tag>((tag, index) => ({
+    const tags = Array.from({ length: 10 }).map<Tag>((tag, index) => ({
       id: index,
       name: `Shopping${index}`,
       kind: 'expenses',
@@ -19,8 +19,8 @@ export const tagsMock: MockMethod = {
       resources: tags,
       pager: {
         page: 1,
-        per_page: 20,
-        count: 20,
+        per_page: 10,
+        count: 33,
       }
     }
   }
