@@ -15,18 +15,17 @@ const Div = styled.div`
   text-align: center;
 `
 
-const getKey = (pageIndex: number, prev: Resources<Tag>) => {
-  if (prev) {
-    const sendCount = (prev.pager.page - 1) * prev.pager.per_page + prev.resources.length
-    const count = prev.pager.count
-    if (sendCount >= count) { return null }
-  }
-  return `/api/v1/tags?page=${pageIndex + 1}`
-}
-
 export const Tags: React.FC<Props> = (props) => {
   const { kind, value, onChange } = props
   const { get } = useAjax({ showLoading: true, handleError: true })
+  const getKey = (pageIndex: number, prev: Resources<Tag>) => {
+    if (prev) {
+      const sendCount = (prev.pager.page - 1) * prev.pager.per_page + prev.resources.length
+      const count = prev.pager.count
+      if (sendCount >= count) { return null }
+    }
+    return `/api/v1/tags?page=${pageIndex + 1}&kind=${kind}`
+  }
   const { data, error, size, setSize } = useSWRInfinite(
     getKey,
     async path => (await get<Resources<Tag>>(path)).data,
