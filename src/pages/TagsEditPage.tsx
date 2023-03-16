@@ -9,11 +9,9 @@ export const TagsEditPage: React.FC = () => {
   const nav = useNavigate()
   const { id } = useParams()
   const { destroy } = useAjax({ showLoading: true, handleError: true })
-  const confirmable = (tip: string, fn: () => void) => {
-    return () => {
-      const result = window.confirm(tip)
-      if (result) { fn() }
-    }
+  const confirmable = (tip: string, fn: () => void) => () => {
+    const result = window.confirm(tip)
+    if (result) { fn() }
   }
   const onDelete = confirmable('Sure you want to delete it?', async () => {
     await destroy(`/api/v1/tags/${id}`).catch((error) => {
