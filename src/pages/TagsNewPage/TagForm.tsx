@@ -56,18 +56,16 @@ export const TagForm: React.FC<Props> = (props) => {
     const newError = validate(data, [
       { key: 'kind', type: 'required', message: 'kind is required' },
       { key: 'name', type: 'required', message: 'Please input tag name' },
-      { key: 'name', type: 'length', max: 4, message: 'Tag name too long' },
+      { key: 'name', type: 'length', max: 4, message: 'Tag up to 4 characters' },
       { key: 'sign', type: 'required', message: 'Please input sign' },
     ])
     setError(newError)
     if (!hasError(newError)) {
-      if (type === 'create') {
-        const res = await post<Resource<Tag>>('/api/v1/tags', data).catch(onSubmitError)
-        setData(res.data.resource)
-      } else {
-        const res = await patch<Resource<Tag>>(`/api/v1/tags/${id}`, data).catch(onSubmitError)
-        setData(res.data.resource)
-      }
+      const promise = type === 'create'
+        ? post<Resource<Tag>>('/api/v1/tags', data)
+        : patch<Resource<Tag>>(`/api/v1/tags/${id}`, data)
+      const res = await promise.catch(onSubmitError)
+      setData(res.data.resource)
       nav(`/items/new?kind=${encodeURIComponent(kind)}`)
     }
   }
