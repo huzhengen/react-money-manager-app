@@ -18,7 +18,7 @@ export const TagForm: React.FC<Props> = (props) => {
   const { data, error, setData, setError } = useCreateTagStore()
   const [searchParams] = useSearchParams()
   const kind = searchParams.get('kind') ?? ''
-  const { get, post } = useAjax({ showLoading: true, handleError: true })
+  const { get, post, patch } = useAjax({ showLoading: true, handleError: true })
   const params = useParams()
   const id = params.id
   const { data: tag } = useSWR(id ? `/api/v1/tags/${id}` : null, async path =>
@@ -61,8 +61,13 @@ export const TagForm: React.FC<Props> = (props) => {
     ])
     setError(newError)
     if (!hasError(newError)) {
-      const res = await post<Resource<Tag>>('/api/v1/tags', data).catch(onSubmitError)
-      setData(res.data.resource)
+      if (type === 'create') {
+        const res = await post<Resource<Tag>>('/api/v1/tags', data).catch(onSubmitError)
+        setData(res.data.resource)
+      } else {
+        const res = await patch<Resource<Tag>>(`/api/v1/tags/${id}`, data).catch(onSubmitError)
+        setData(res.data.resource)
+      }
       nav(`/items/new?kind=${encodeURIComponent(kind)}`)
     }
   }
