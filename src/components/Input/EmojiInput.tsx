@@ -19,7 +19,7 @@ export const EmojiInput: React.FC<Props> = (props) => {
             onClick={() => setEmojiKind(emoji.name)}>{emoji.name}</span>
         )}
       </div>
-      <div text-24px p-t-8px p-b-16px h-300px overflow-auto text-center>
+      <div text-24px p-t-8px p-b-16px h-260px overflow-auto text-center>
         {emojis.map(emoji =>
           <div key={emoji.name} style={{ display: emoji.name === emojiKind ? '' : 'none' }}
             grid grid-cols="[repeat(auto-fit,34px)]" grid-rows="[repeat(auto-fit,34px)]"

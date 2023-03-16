@@ -53,7 +53,7 @@ export const TagForm: React.FC<Props> = (props) => {
       <Input type='emoji' label={<span>Tag <span text-24px>{data.sign}</span></span>}
         value={data.sign} onChange={sign => setData({ sign })}
         error={error.sign?.[0]} />
-      <p text-center p-b-24px>Press and hold the tag to edit when bookkeeping</p>
+      <p text-center p-b-24px text-14px>Press and hold the tag to edit when bookkeeping</p>
       <div>
         <button j-btn>Confirm</button>
       </div>
