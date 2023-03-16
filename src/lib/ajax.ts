@@ -28,7 +28,6 @@ export const useAjax = (options?: Options) => {
     402: () => window.alert('Payment Required'),
     403: () => window.alert('Forbidden'),
     404: () => window.alert('Not Found'),
-    unknown: () => window.alert('Unknown error')
   }
   const showLoading = options?.showLoading || false
   const handleError = options?.handleError ?? true
@@ -37,7 +36,7 @@ export const useAjax = (options?: Options) => {
     if (error.response) {
       if (handleError) {
         const { status } = error.response
-        const fn = table[status] || table.unknown
+        const fn = table[status]
         fn?.()
       }
     }
