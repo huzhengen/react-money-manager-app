@@ -2,6 +2,7 @@ import type { AxiosError } from 'axios'
 import type { FormEventHandler } from 'react'
 import { useEffect } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import useSWR from 'swr'
 import { Input } from '../../components/Input'
 import { useAjax } from '../../lib/ajax'
 import type { FormError } from '../../lib/validate'
@@ -17,6 +18,18 @@ export const TagForm: React.FC<Props> = (props) => {
   const { data, error, setData, setError } = useCreateTagStore()
   const [searchParams] = useSearchParams()
   const kind = searchParams.get('kind') ?? ''
+  const { get, post } = useAjax({ showLoading: true, handleError: true })
+  const params = useParams()
+  const id = params.id
+  const { data: tag } = useSWR(id ? `/api/v1/tags/${id}` : null, async path =>
+    (await get<Resource<Tag>>(path)).data.resource
+  )
+  useEffect(() => {
+    if (tag) {
+      setData(tag)
+    }
+  }, [tag])
+
   useEffect(() => {
     if (type !== 'create') { return }
     if (!kind) {
@@ -27,17 +40,7 @@ export const TagForm: React.FC<Props> = (props) => {
     }
     setData({ kind })
   }, [searchParams])
-  const params = useParams()
-  useEffect(() => {
-    if (type !== 'edit') { return }
-    const id = params.id
-    if (!id) {
-      throw new Error('No id')
-    }
-    // ajax
-  }, [])
   const nav = useNavigate()
-  const { post } = useAjax({ showLoading: true, handleError: true })
   const onSubmitError = (error: AxiosError<{ errors: FormError<typeof data> }>) => {
     if (error.response) {
       const { status } = error.response
