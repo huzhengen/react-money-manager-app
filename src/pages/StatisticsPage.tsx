@@ -1,6 +1,6 @@
 import { useState } from 'react'
+import { BackIcon } from '../components/BackIcon'
 import { Gradient } from '../components/Gradient'
-import { Icon } from '../components/Icon'
 import { Input } from '../components/Input'
 import { LineChart } from '../components/LineChart'
 import { PieChart } from '../components/PieChart'
@@ -58,7 +58,7 @@ export const StatisticsPage: React.FC = () => {
   const [value, setValue] = useState('expenses')
   return (<div>
     <Gradient>
-      <TopNav title="Statistics" icon={<Icon name="back" />} />
+      <TopNav title="Statistics" icon={<BackIcon />} />
     </Gradient>
     <TimeRangePicker onSelect={setTimeRange} selected={timeRange} />
     <div flex p-16px items-center gap-x-16px>
