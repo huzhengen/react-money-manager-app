@@ -60,4 +60,8 @@ export const tagsMock: MockMethod[] = [{
   method: 'patch',
   statusCode: 200,
   response: ({ query }: ResponseParams): Resource<Tag> => ({ resource: create() }),
+}, {
+  url: '/api/v1/tags/:id',
+  method: 'delete',
+  statusCode: 200,
 }]

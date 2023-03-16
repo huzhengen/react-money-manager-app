@@ -21,8 +21,11 @@ export const TagForm: React.FC<Props> = (props) => {
   const { get, post, patch } = useAjax({ showLoading: true, handleError: true })
   const params = useParams()
   const id = params.id
-  const { data: tag } = useSWR(id ? `/api/v1/tags/${id}` : null, async path =>
-    (await get<Resource<Tag>>(path)).data.resource
+  // revalidateIfStale = true: automatically revalidate even if there is stale data
+  const { data: tag } = useSWR(id ? `/api/v1/tags/${id}` : null,
+    async path =>
+      (await get<Resource<Tag>>(path)).data.resource,
+    { revalidateIfStale: false }
   )
   useEffect(() => {
     if (tag) {

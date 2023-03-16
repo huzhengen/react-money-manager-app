@@ -45,7 +45,10 @@ export const useAjax = (options?: Options) => {
 
   const ajax = {
     get: <T>(path: string) => {
-      return axios.get<T>(path).catch(onError)
+      if (showLoading) { setVisible(true) }
+      return axios.get<T>(path).catch(onError).finally(() => {
+        if (showLoading) { setVisible(false) }
+      })
     },
     post: <T>(path: string, data: JSONValue) => {
       if (showLoading) { setVisible(true) }
@@ -59,7 +62,12 @@ export const useAjax = (options?: Options) => {
         if (showLoading) { setVisible(false) }
       })
     },
-    delete: () => { },
+    destroy: <T>(path: string) => {
+      if (showLoading) { setVisible(true) }
+      return axios.delete<T>(path).catch(onError).finally(() => {
+        if (showLoading) { setVisible(false) }
+      })
+    },
   }
   return ajax
 }
