@@ -1,5 +1,5 @@
 import { useRef, } from 'react'
-import type { TouchEvent } from 'react'
+import type { MouseEvent, TouchEvent } from 'react'
 import { Link, useNavigate, } from 'react-router-dom'
 import styled from 'styled-components'
 import useSWRInfinite from 'swr/infinite'
@@ -67,6 +67,35 @@ export const Tags: React.FC<Props> = (props) => {
     }
   }
 
+  const hasMouseDown = useRef(false)
+  const onMouseDown = (e: MouseEvent<HTMLLIElement>, id: Tag['id']) => {
+    hasMouseDown.current = true
+    touchTimer.current = window.setTimeout(() => {
+      nav(`/tags/${id}`)
+    }, 500)
+    touchPosition.current = { x: e.clientX, y: e.clientY }
+  }
+  const onMouseMove = (e: MouseEvent<HTMLLIElement>, id: Tag['id']) => {
+    if (hasMouseDown.current) {
+      const newX = e.clientX
+      const newY = e.clientY
+      const { x, y } = touchPosition.current
+      if (x === undefined || y === undefined) { return }
+      const distance = Math.sqrt((newX - x) ** 2 + (newY - y) ** 2)
+      if (distance > 10) {
+        window.clearTimeout(touchTimer.current)
+        touchTimer.current = undefined
+      }
+    }
+  }
+  window.onmouseup = () => {
+    hasMouseDown.current = false
+    if (touchTimer.current) {
+      window.clearTimeout(touchTimer.current)
+      touchTimer.current = undefined
+    }
+  }
+
   if (!data) {
     return <div>No data</div>
   } else {
@@ -88,8 +117,8 @@ export const Tags: React.FC<Props> = (props) => {
           return resources.map((tag, index) =>
             <li key={index} w-48px flex justify-center items-center
               flex-col gap-y-8px onClick={() => onChange?.([tag.id])}
-              onTouchStart={e => onTouchStart(e, tag.id)}
-              onTouchMove={e => onTouchMove(e, tag.id)}
+              onTouchStart={e => onTouchStart(e, tag.id)} onMouseDown={e => onMouseDown(e, tag.id)}
+              onTouchMove={e => onTouchMove(e, tag.id)} onMouseMove={e => onMouseMove(e, tag.id)}
               onTouchEnd={e => onTouchEnd(e, tag.id)}>
               {value?.includes(tag.id)
                 ? <span block w-48px h-48px rounded="24px" bg="#EFEFEF"
