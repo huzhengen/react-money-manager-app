@@ -27,6 +27,10 @@ export class Time {
     return new Time(new Date(this.year, this.month - 1 + 1, 0))
   }
 
+  get firstDayOfMonth() {
+    return new Time(new Date(this.year, this.month - 1, 1))
+  }
+
   /**
   * format
   * @param pattern yyyy MM dd HH mm ss fff

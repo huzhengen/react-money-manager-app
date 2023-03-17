@@ -27,7 +27,7 @@ export const useAjax = (options?: Options) => {
     401: () => nav('/sign_in'),
     402: () => window.alert('Payment Required'),
     403: () => window.alert('Forbidden'),
-    404: () => window.alert('Not Found'),
+    // 404: () => window.alert('Not Found'),
   }
   const showLoading = options?.showLoading || false
   const handleError = options?.handleError ?? true
