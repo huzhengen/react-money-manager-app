@@ -28,10 +28,13 @@ export const StatisticsPage: React.FC = () => {
     }
   }
   const { start, end } = generateStartAndEnd()
-  const { data: items } = useSWR(`/api/v1/items/summary?happened_after=${start}&happened_before=${end}&kind=${kind}&group_by=happen_at`, async (path) => {
-    const res = await get<{ groups: Groups; total: number }>(path)
-    return res.data.groups.map(({ happen_at, amount }) => ({ x: happen_at, y: amount }))
-  })
+  const { data: items } = useSWR(
+    `/api/v1/items/summary?happened_after=${start}&happened_before=${end}&kind=${kind}&group_by=happen_at`,
+    async (path) => {
+      return (await get<{ groups: Groups; total: number }>(path))
+        .data.groups.map(({ happen_at, amount }) => ({ x: happen_at, y: amount }))
+    }
+  )
 
   const items2 = [
     { tag: { name: 'By a phone', sign: '📱' }, amount: 10000 },
