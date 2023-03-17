@@ -11,7 +11,7 @@ const MyIcon = styled(Icon)`
 `
 
 const items = [
-  { key: 'chart', icon: 'chart', text: 'Charts', to: '/chart' },
+  { key: 'chart', icon: 'chart', text: 'Statistics', to: '/statistics' },
   { key: 'export', icon: 'export', text: 'Export', to: '/export' },
   { key: 'tags', icon: 'category', text: 'Tags', to: '/tags' },
   { key: 'noty', icon: 'noty', text: 'Notify', to: '/noty' },

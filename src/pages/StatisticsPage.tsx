@@ -56,11 +56,13 @@ export const StatisticsPage: React.FC = () => {
     { tag: { name: 'Shopping', sign: '🛒' }, amount: 38800 },
   ].map(item => ({ name: item.tag.name, value: item.amount, sign: item.tag.sign }))
   const [value, setValue] = useState('expenses')
+
   return (<div>
     <Gradient>
       <TopNav title="Statistics" icon={<BackIcon />} />
     </Gradient>
-    <TimeRangePicker onSelect={setTimeRange} selected={timeRange} />
+    <TimeRangePicker onSelect={setTimeRange} selected={timeRange} timeRanges={[
+      { key: 'thisMonth', text: 'this month1' }, { key: 'lastMonth', text: 'last month' }]} />
     <div flex p-16px items-center gap-x-16px>
       <span grow-0 shrink-0>Type</span>
       <div grow-1 shrink-1>
