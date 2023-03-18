@@ -31,6 +31,10 @@ export class Time {
     return new Time(new Date(this.year, this.month - 1, 1))
   }
 
+  get dayCountOfMonth() {
+    return this.lastDayOfMonth.day
+  }
+
   /**
   * format
   * @param pattern yyyy MM dd HH mm ss fff
@@ -159,6 +163,10 @@ export class Time {
 
   set ms(v) {
     this.parts = { ms: v }
+  }
+
+  get clone() {
+    return new Time(this.#date)
   }
 
   get isoString() {
