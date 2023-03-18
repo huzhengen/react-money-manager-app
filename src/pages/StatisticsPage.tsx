@@ -33,7 +33,7 @@ export const StatisticsPage: React.FC = () => {
       }
       return { start, end, defaultItems }
     } else {
-      return { start: '', end: '', defaultItems: [] }
+      return { start: '', end: '', defaultItems }
     }
   }
   const { start, end, defaultItems } = generateStartEndAndDefaultItems()
@@ -46,11 +46,7 @@ export const StatisticsPage: React.FC = () => {
   )
   const normalizedItems = defaultItems.map((defaultItem, index) => {
     const item = items?.find(item => item.x === defaultItem.x)
-    if (item) {
-      return { x: defaultItem.x, y: item.y }
-    } else {
-      return defaultItem
-    }
+    return { ...defaultItem, ...item }
   })
 
   const items2 = [
