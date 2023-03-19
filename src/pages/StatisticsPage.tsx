@@ -27,23 +27,21 @@ const getKey = ({ start, end, kind, group_by }: GetKeyParams) => {
   return `/api/v1/items/summary?happened_after=${start.format(format)}&happened_before=${end.format(format)}&kind=${kind}&group_by=${group_by}`
 }
 
+// Table-Driven
+const timeRangeMap: { [k in TimeRange]: number } = {
+  thisMonth: 0,
+  lastMonth: -1,
+  twoMonthsAgo: -2,
+  threeMonthsAgo: -3,
+  custom: 0
+}
+
 export const StatisticsPage: React.FC = () => {
   const [timeRange, setTimeRange] = useState<TimeRange>('thisMonth')
   const [kind, setKind] = useState<Item['kind']>('expenses')
   const { get } = useAjax({ showLoading: true, handleError: true })
   const generateStartAndEnd = () => {
-    let selected: Time
-    if (timeRange === 'thisMonth') {
-      selected = time().add(0, 'month')
-    } else if (timeRange === 'lastMonth') {
-      selected = time().add(-1, 'month')
-    } else if (timeRange === 'twoMonthsAgo') {
-      selected = time().add(-1, 'month')
-    } else if (timeRange === 'threeMonthsAgo') {
-      selected = time().add(-1, 'month')
-    } else {
-      selected = time().add(0, 'month')
-    }
+    const selected: Time = time().add(timeRangeMap[timeRange], 'month')
     const start = selected.firstDayOfMonth
     const end = start.lastDayOfMonth.add(1, 'day')
     return { start, end }
