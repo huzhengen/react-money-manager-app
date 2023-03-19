@@ -3,7 +3,7 @@ import * as echarts from 'echarts'
 
 type Props = {
   className?: string
-  items?: { x: string; y: number }[]
+  items?: { x: string; y: number | string }[]
 }
 
 export const LineChart: React.FC<Props> = (props) => {
