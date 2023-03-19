@@ -32,14 +32,19 @@ export const StatisticsPage: React.FC = () => {
   const [kind, setKind] = useState<Item['kind']>('expenses')
   const { get } = useAjax({ showLoading: true, handleError: true })
   const generateStartAndEnd = () => {
-    let start: Time
+    let selected: Time
     if (timeRange === 'thisMonth') {
-      start = time().firstDayOfMonth
+      selected = time().add(0, 'month')
     } else if (timeRange === 'lastMonth') {
-      start = time().add(-1, 'month').firstDayOfMonth
+      selected = time().add(-1, 'month')
+    } else if (timeRange === 'twoMonthsAgo') {
+      selected = time().add(-1, 'month')
+    } else if (timeRange === 'threeMonthsAgo') {
+      selected = time().add(-1, 'month')
     } else {
-      start = time()
+      selected = time().add(0, 'month')
     }
+    const start = selected.firstDayOfMonth
     const end = start.lastDayOfMonth.add(1, 'day')
     return { start, end }
   }

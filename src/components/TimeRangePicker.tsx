@@ -1,6 +1,6 @@
 import { Tabs } from './Tabs'
 
-export type TimeRange = 'thisMonth' | 'lastMonth' | 'custom'
+export type TimeRange = 'thisMonth' | 'lastMonth' | 'twoMonthsAgo' | 'threeMonthsAgo' | 'custom'
 
 type Props = {
   selected: TimeRange
