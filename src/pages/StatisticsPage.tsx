@@ -17,19 +17,31 @@ type Groups = { happen_at: string; amount: number }[]
 type Groups2 = { tag_id: string; tag: Tag; amount: number }[]
 
 const format = 'yyyy-MM-dd'
+type GetKeyParams = {
+  start: Time
+  end: Time
+  kind: Item['kind']
+  group_by: 'happen_at' | 'tag_id'
+}
+const getKey = ({ start, end, kind, group_by }: GetKeyParams) => {
+  return `/api/v1/items/summary?happened_after=${start.format(format)}&happened_before=${end.format(format)}&kind=${kind}&group_by=${group_by}`
+}
 
 export const StatisticsPage: React.FC = () => {
   const [timeRange, setTimeRange] = useState<TimeRange>('thisMonth')
-  const [kind, setKind] = useState('expenses')
-  const { get } = useAjax({ showLoading: false, handleError: true })
+  const [kind, setKind] = useState<Item['kind']>('expenses')
+  const { get } = useAjax({ showLoading: true, handleError: true })
   const generateStartAndEnd = () => {
+    let start: Time
     if (timeRange === 'thisMonth') {
-      const start = time().firstDayOfMonth
-      const end = time().lastDayOfMonth.add(1, 'day')
-      return { start, end }
+      start = time().firstDayOfMonth
+    } else if (timeRange === 'lastMonth') {
+      start = time().add(-1, 'month').firstDayOfMonth
     } else {
-      return { start: time(), end: time() }
+      start = time()
     }
+    const end = start.lastDayOfMonth.add(1, 'day')
+    return { start, end }
   }
   const generateDefaultItems = (time: Time) => {
     return Array.from({ length: time.dayCountOfMonth }).map((_, i) => {
@@ -41,7 +53,7 @@ export const StatisticsPage: React.FC = () => {
   const defaultItems = generateDefaultItems(start)
   // LineChart
   const { data: items } = useSWR(
-    `/api/v1/items/summary?happened_after=${start.format('yyyy-MM-dd')}&happened_before=${end.format('yyyy-MM-dd')}&kind=${kind}&group_by=happen_at`,
+    getKey({ start, end, kind, group_by: 'happen_at' }),
     async (path) => {
       return (await get<{ groups: Groups; total: number }>(path))
         .data.groups.map(({ happen_at, amount }) => ({ x: happen_at, y: (amount / 100).toFixed(2) }))
@@ -54,7 +66,7 @@ export const StatisticsPage: React.FC = () => {
 
   // PieChart
   const { data: items2 } = useSWR(
-    `/api/v1/items/summary?happened_after=${start.format('yyyy-MM-dd')}&happened_before=${end.format('yyyy-MM-dd')}&kind=${kind}&group_by=tag_id`,
+    getKey({ start, end, kind, group_by: 'tag_id' }),
     async (path) => {
       return (await get<{ groups: Groups2; total: number }>(path))
         .data.groups.map(({ tag, amount }) => ({ name: tag.name, amount: (amount / 100).toFixed(2), sign: tag.sign }))
@@ -66,14 +78,14 @@ export const StatisticsPage: React.FC = () => {
       <TopNav title="Statistics" icon={<BackIcon />} />
     </Gradient>
     <TimeRangePicker onSelect={setTimeRange} selected={timeRange} timeRanges={[
-      { key: 'thisMonth', text: 'this month1' }, { key: 'lastMonth', text: 'last month' }]} />
+      { key: 'thisMonth', text: 'this month' }, { key: 'lastMonth', text: 'last month' }]} />
     <div flex p-16px items-center gap-x-16px>
       <span grow-0 shrink-0>Type</span>
       <div grow-1 shrink-1>
         <Input type="select" options={[
           { text: 'expenses', value: 'expenses' },
           { text: 'income', value: 'income' },
-        ]} value={kind} onChange={kind => setKind(kind)} disableError />
+        ]} value={kind} onChange={kind => setKind(kind as Item['kind'])} disableError />
       </div>
     </div>
     <LineChart className="h-120px" items={normalizedItems} />
