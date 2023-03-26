@@ -11,6 +11,7 @@ import { TimeRangePicker } from '../components/TimeRangePicker'
 import { TopNav } from '../components/TopNav'
 import { useAjax } from '../lib/ajax'
 import type { Time } from '../lib/time'
+import { time } from '../lib/time'
 import { timeRangeToStartAndEnd } from '../lib/timeRangeToStartAndEnd'
 
 type Groups = { happen_at: string; amount: number }[]
@@ -28,7 +29,11 @@ const getKey = ({ start, end, kind, group_by }: GetKeyParams) => {
 }
 
 export const StatisticsPage: React.FC = () => {
-  const [timeRange, setTimeRange] = useState<TimeRange>('thisMonth')
+  const [timeRange, setTimeRange] = useState<TimeRange>({
+    name: 'thisMonth',
+    start: time().firstDayOfMonth,
+    end: time().lastDayOfMonth.add(1, 'day')
+  })
   const [kind, setKind] = useState<Item['kind']>('expenses')
   const { get } = useAjax({ showLoading: true, handleError: true })
   const generateDefaultItems = (time: Time) => {
@@ -66,7 +71,14 @@ export const StatisticsPage: React.FC = () => {
       <TopNav title="Statistics" icon={<BackIcon />} />
     </Gradient>
     <TimeRangePicker onSelect={setTimeRange} selected={timeRange} timeRanges={[
-      { key: 'thisMonth', text: 'this month' }, { key: 'lastMonth', text: 'last month' }]} />
+      {
+        key: { name: 'thisMonth', start: time().firstDayOfMonth, end: time().lastDayOfMonth.add(1, 'day') },
+        text: 'this month'
+      },
+      {
+        key: { name: 'lastMonth', start: time().add(-1, 'month').firstDayOfMonth, end: time().add(-1, 'month').lastDayOfMonth.add(1, 'day') },
+        text: 'last month'
+      }]} />
     <div flex p-16px items-center gap-x-16px>
       <span grow-0 shrink-0>Type</span>
       <div grow-1 shrink-1>
