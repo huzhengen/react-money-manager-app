@@ -40,14 +40,13 @@ export const TimeRangePicker: React.FC<Props> = (props) => {
       start: time(),
       end: time()
     })
-    hide()
   }
-  const { popup, show, hide } = usePopup({
+  const { popup, show } = usePopup({
     children: <div onClick={onConfirm}>
       <header text-18px bg="[var(--color-purple)]" text-white py-13px p-l-16px>Please select a time</header>
       <main p-16px>
-        <Input disableError label="Start time" value={start} onChange={d => setStart(d)} />
-        <Input disableError label="End time" value={end} onChange={d => setEnd(d)} />
+        <Input type="date" className="w280px" disableError label="Start Time" value={start} onChange={d => setStart(d)} />
+        <Input type="date" className="mt-8px" disableError label="End Time" value={end} onChange={d => setEnd(d)} />
       </main>
       <footer text-right>
         <button border-none bg-transparent px-16px py-8px>Cancel</button>
