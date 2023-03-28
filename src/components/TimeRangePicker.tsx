@@ -42,6 +42,7 @@ export const TimeRangePicker: React.FC<Props> = (props) => {
     })
   }
   const { popup, show } = usePopup({
+    zIndex: 'var(--z-dialog)',
     children: <div onClick={onConfirm}>
       <header text-18px bg="[var(--color-purple)]" text-white py-13px p-l-16px>Please select a time</header>
       <main p-16px>

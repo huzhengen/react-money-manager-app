@@ -1,3 +1,7 @@
+import { usePopup } from '../../hooks/usePopup'
+import { time } from '../../lib/time'
+import { Datepicker } from '../Datepicker'
+
 type Props = {
   placeholder?: string
   value?: string
@@ -7,8 +11,14 @@ type Props = {
 
 export const DateInput: React.FC<Props> = (props) => {
   const { placeholder, value, onChange, className } = props
-  return (<div>
+  const { popup, toggle, hide } = usePopup({
+    children: <Datepicker
+      onConfirm={(d) => { onChange?.(time(d).isoString); hide() }}
+      onCancel={() => hide()} />,
+  })
+  return (<>
+    {popup}
     <input className={className} j-input-text type="text" readOnly placeholder={placeholder}
-      value={value} onChange={e => onChange?.(e.target.value)} />
-  </div>)
+      value={value} onClick={toggle} />
+  </>)
 }
