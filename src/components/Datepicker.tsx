@@ -9,12 +9,14 @@ type Props = {
   onConfirm?: (value: Date) => void
 }
 
+const getNow = () => time().set({ hours: 0, minutes: 0, seconds: 0, ms: 0 })
+
 export const Datepicker: React.FC<Props> = (props) => {
   const { start, end, value, onCancel, onConfirm } = props
   const [, update] = useState({})
-  const startTime = start ? time(start) : time(start).add(-10, 'years')
-  const endTime = end ? time(end) : time(end).add(10, 'years')
-  const valueTime = useRef(value ? time(value) : time())
+  const startTime = start ? time(start) : getNow().add(-10, 'years')
+  const endTime = end ? time(end) : getNow().add(10, 'year')
+  const valueTime = useRef(value ? time(value).set({ hours: 0, minutes: 0, seconds: 0, ms: 0 }) : getNow())
   if (endTime.timestamp <= startTime.timestamp) {
     throw new Error('The end time must be later than the start time!')
   }

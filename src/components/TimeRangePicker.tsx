@@ -37,13 +37,13 @@ export const TimeRangePicker: React.FC<Props> = (props) => {
   const onConfirm = () => {
     _onSelect({
       name: 'custom',
-      start: time(),
-      end: time()
+      start: time(start),
+      end: time(end).add(1, 'day')
     })
   }
   const { popup, show } = usePopup({
     zIndex: 'var(--z-dialog)',
-    children: <div onClick={onConfirm}>
+    children: <div>
       <header text-18px bg="[var(--color-purple)]" text-white py-13px p-l-16px>Please select a time</header>
       <main p-16px>
         <Input type="date" className="w280px" disableError label="Start Time" value={start} onChange={d => setStart(d)} />
@@ -51,7 +51,7 @@ export const TimeRangePicker: React.FC<Props> = (props) => {
       </main>
       <footer text-right>
         <button border-none bg-transparent px-16px py-8px>Cancel</button>
-        <button border-none bg-transparent px-16px py-8px>Confirm</button>
+        <button border-none bg-transparent px-16px py-8px onClick={onConfirm}>Confirm</button>
       </footer>
     </div>,
     position: 'center'

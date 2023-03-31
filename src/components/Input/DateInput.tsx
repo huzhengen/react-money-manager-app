@@ -19,6 +19,6 @@ export const DateInput: React.FC<Props> = (props) => {
   return (<>
     {popup}
     <input className={className} j-input-text type="text" readOnly placeholder={placeholder}
-      value={value} onClick={toggle} />
+      value={time(value).format()} onClick={toggle} />
   </>)
 }
