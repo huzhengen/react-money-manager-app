@@ -58,7 +58,7 @@ export const ItemsList: React.FC<Props> = (props) => {
             2011年1月1日
           </div>
           <div row-start-1 col-start-3 row-end-2 col-end-4 text="#53A867">
-            ￥{item.amount / 100}
+            ${item.amount / 100}
           </div>
         </li>
       )
