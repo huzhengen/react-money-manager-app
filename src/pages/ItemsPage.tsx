@@ -41,7 +41,7 @@ export const ItemsPage: React.FC = () => {
         Customized time span cannot exceed 365 days
       </div>
       : <>
-        <ItemsSummary />
+        <ItemsSummary start={start} end={end} />
         <ItemsList start={start} end={end} />
       </>
     }
