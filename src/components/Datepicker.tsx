@@ -27,7 +27,7 @@ export const Datepicker: React.FC<Props> = (props) => {
     .map((_, index) => index + 1)
   return (
     <div>
-      <div flex justify-between p-8px border-b-1 b="#f3f3f3" children-p-8px>
+      <div flex justify-between p-8px border-b-1 b-b-solid b="#f3f3f3" children-p-8px>
         <span onClick={onCancel}>Cancel</span>
         <span>Select date</span>
         <span onClick={() => onConfirm?.(valueTime.current.date)}>Confirm</span>
@@ -96,7 +96,7 @@ export const Column: React.FC<ColumnProps> = (props) => {
         onChange(items[Math.abs(y / itemHeight)])
       }}
     >
-      <div border-b-1 border-t-1 b="#eee" absolute top="50%" w-full
+      <div border-b-1 border-t-1 b-t-solid b-b-solid b="#eee" absolute top="50%" w-full
         style={{ height: itemHeight, transform: `translateY(${-itemHeight / 2}px)` }} />
       <div absolute top="50%" w-full style={{ transform: `translateY(${-itemHeight / 2}px)` }}>
         <ol style={{ transform: `translateY(${translateY}px)` }}

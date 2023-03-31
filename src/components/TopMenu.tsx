@@ -13,10 +13,10 @@ export const TopMenu: React.FC<Props> = ({ onClickMask, visible }) => {
   const maskStyles = useSpring({
     opacity: visible ? 1 : 0,
     onStart: ({ value }) => {
-      if (value.opacity < 0.1) { setMaskVisible(true) }
+      if (0.1 > value.opacity) { setMaskVisible(true) }
     },
     onRest: ({ value }) => {
-      if (value.opacity < 0.1) { setMaskVisible(false) }
+      if (0.1 > value.opacity) { setMaskVisible(false) }
     }
   })
   const menuStyles = useSpring({

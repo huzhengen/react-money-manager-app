@@ -3,6 +3,7 @@
   "rules": {
     "curly": "off",
     "no-alert": "off",
+    "yoda": "off",
     "@typescript-eslint/no-use-before-define": "off",
     "@typescript-eslint/brace-style": "off",
     "@typescript-eslint/consistent-type-definitions": "off",
