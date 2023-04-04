@@ -14,6 +14,7 @@ const create = (attrs?: Partial<Item>): Item => {
     amount: faker.datatype.number({ min: 99, max: 1000_00 }),
     tag_ids: [1, 2],
     happen_at: faker.date.past().toISOString(),
+    happened_at: faker.date.past().toISOString(),
     created_at: faker.date.past().toISOString(),
     updated_at: faker.date.past().toISOString(),
     kind: 'expenses',
