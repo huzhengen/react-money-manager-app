@@ -9,12 +9,12 @@ interface Props {
 const MyIcon = styled(Icon)`
   width: 32px; height: 32px; margin-right: 16px;
 `
-//  Bookkeeping
+
 const items = [
   { icon: 'pig', text: 'Bookkeeping', to: '/items/new' },
   { icon: 'chart', text: 'Statistics', to: '/statistics' },
-  { icon: 'export', text: 'Export', to: '/export' },
-  { icon: 'noty', text: 'Notify', to: '/noty' },
+  // { icon: 'export', text: 'Export', to: '/export' },
+  // { icon: 'noty', text: 'Notify', to: '/noty' },
 ]
 
 export const Menu: React.FC<Props> = ({ className }) => {
