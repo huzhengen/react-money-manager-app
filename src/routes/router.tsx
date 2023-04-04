@@ -17,6 +17,7 @@ import { Welcome2 } from '../pages/Welcome2'
 import { Welcome3 } from '../pages/Welcome3'
 import { Welcome4 } from '../pages/Welcome4'
 import { ajax } from '../lib/ajax'
+import { ComingSoonPage } from '../pages/ComingSoonPage'
 
 export const router = createBrowserRouter([
   { path: '/', element: <Root />, },
@@ -62,11 +63,10 @@ export const router = createBrowserRouter([
       },
       { path: '/items/new', element: <ItemsNewPage /> },
       { path: '/statistics', element: <StatisticsPage /> },
-      { path: '/export', element: <div>Under Construction</div> },
-      { path: '/tags', element: <div>Tags</div> },
       { path: '/tags/new', element: <TagsNewPage /> },
       { path: '/tags/:id', element: <TagsEditPage /> },
-      { path: '/noty', element: <div>Under Construction</div> },
+      { path: '/export', element: <ComingSoonPage /> },
+      { path: '/noty', element: <ComingSoonPage /> },
     ],
   },
 
