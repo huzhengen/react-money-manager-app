@@ -3,18 +3,24 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { useLoadingStore } from '../stores/useLoadingStore'
 
-axios.defaults.baseURL = isDev ? '/' : 'https://121.196.236.94:3000'
-axios.defaults.headers.post['Content-Type'] = 'application/json'
-axios.defaults.timeout = 10000
+let hasSetup = false
 
-axios.interceptors.request.use((config) => {
-  config.headers = config.headers || {}
-  const jwt = localStorage.getItem('jwt') || ''
-  if (jwt) {
-    config.headers.Authorization = `Bearer ${jwt}`
-  }
-  return config
-}, () => { })
+export const setup = () => {
+  if (hasSetup) { return }
+  hasSetup = true
+  axios.defaults.baseURL = isDev ? '/' : 'http://121.196.236.94:8080/'
+  axios.defaults.headers.post['Content-Type'] = 'application/json'
+  axios.defaults.timeout = 10000
+
+  axios.interceptors.request.use((config) => {
+    config.headers = config.headers || {}
+    const jwt = localStorage.getItem('jwt') || ''
+    if (jwt) {
+      config.headers.Authorization = `Bearer ${jwt}`
+    }
+    return config
+  }, () => { })
+}
 
 type Options = {
   showLoading?: boolean

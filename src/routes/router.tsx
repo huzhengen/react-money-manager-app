@@ -1,7 +1,6 @@
 import type { AxiosError } from 'axios'
 import axios from 'axios'
 import { Outlet, createBrowserRouter } from 'react-router-dom'
-import { preload } from 'swr'
 import { Root } from '../components/Root'
 import { ErrorEmptyData, ErrorUnauthorized } from '../errors'
 import { WelcomeLayout } from '../layouts/WelcomeLayout'
@@ -37,27 +36,29 @@ export const router = createBrowserRouter([
     path: '/',
     element: <Outlet />,
     errorElement: <ErrorPage />,
-    loader: async () =>
-      preload('/api/v1/me', path => axios.get<Resource<User>>(path)
-        .then(r => r.data, () => { throw new ErrorUnauthorized() })),
+    loader: async () => {
+      axios.get<Resource<User>>('/api/v1/me').catch((e) => {
+        if (e.response.status === 401) {
+          throw new ErrorUnauthorized()
+        }
+      })
+    },
     children: [
       {
         path: '/items',
         element: <ItemsPage />,
         errorElement: <ItemsPageError />,
         loader: async () => {
-          return preload('/api/v1/items?page=1', async () => {
-            const onError = (error: AxiosError) => {
-              if (error.response?.status === 401) { throw new ErrorUnauthorized() }
-              throw error
-            }
-            const response = await axios.get<Resources<Item>>('/api/v1/items?page=1').catch(onError)
-            if (response.data.resources.length > 0) {
-              return response.data
-            } else {
-              throw new ErrorEmptyData()
-            }
-          })
+          const onError = (error: AxiosError) => {
+            if (error.response?.status === 401) { throw new ErrorUnauthorized() }
+            throw error
+          }
+          const response = await axios.get<Resources<Item>>('/api/v1/items?page=1').catch(onError)
+          if (response.data.resources.length > 0) {
+            return response.data
+          } else {
+            throw new ErrorEmptyData()
+          }
         }
       },
       { path: '/items/new', element: <ItemsNewPage /> },

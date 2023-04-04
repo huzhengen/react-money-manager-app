@@ -32,7 +32,7 @@ export const SignInPage: React.FC = () => {
     setError(newError)
     if (!hasError(newError)) {
       // Sign in
-      const response = await postWithoutLoading<{ jwt: string }>('http://121.196.236.94:3000/api/v1/session', data)
+      const response = await postWithoutLoading<{ jwt: string }>('/api/v1/session', data)
         .catch(onSubmitError)
       // Putting jwt into localstorage
       localStorage.setItem('jwt', response.data.jwt)
