@@ -8,6 +8,7 @@ import { TopNav } from '../components/TopNav'
 import { useAjax } from '../lib/ajax'
 import { hasError, validate } from '../lib/validate'
 import { useCreateItemStore } from '../stores/useCreateItemStore'
+import { time } from '../lib/time'
 import { ItemAmount } from './ItemNewPage/ItemAmount'
 import { ItemDate } from './ItemNewPage/ItemDate'
 import { Tags } from './ItemNewPage/Tags'
@@ -49,6 +50,10 @@ export const ItemsNewPage: React.FC = () => {
       window.alert(message)
     } else {
       await postWithoutLoading<Resource<Item>>('/api/v1/items', data)
+      setData({
+        happen_at: time(new Date()).isoString,
+        amount: 0,
+      })
       nav('/items')
     }
   }
