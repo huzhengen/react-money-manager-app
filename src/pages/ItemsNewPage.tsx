@@ -1,5 +1,6 @@
 import type { FormEventHandler, ReactNode } from 'react'
 import styled from 'styled-components'
+import { useNavigate } from 'react-router-dom'
 import { BackIcon } from '../components/BackIcon'
 import { Gradient } from '../components/Gradient'
 import { Tabs } from '../components/Tabs'
@@ -18,6 +19,7 @@ const StyledTabs = styled(Tabs)`
 `
 
 export const ItemsNewPage: React.FC = () => {
+  const nav = useNavigate()
   const { data, setData, setError, } = useCreateItemStore()
   const tabItems: { key: Item['kind']; text: string; element?: ReactNode }[] = [
     {
@@ -47,6 +49,7 @@ export const ItemsNewPage: React.FC = () => {
       window.alert(message)
     } else {
       await postWithoutLoading<Resource<Item>>('/api/v1/items', data)
+      nav('/items')
     }
   }
   return (

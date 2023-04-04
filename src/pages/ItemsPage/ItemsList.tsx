@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import useSWRInfinite from 'swr/infinite'
 import { useAjax } from '../../lib/ajax'
 import type { Time } from '../../lib/time'
+import { time } from '../../lib/time'
 
 interface Props {
   start: Time
@@ -49,13 +50,13 @@ export const ItemsList: React.FC<Props> = (props) => {
           border-b-1 b-b-solid b="#EEE">
           <div row-start-1 col-start-1 row-end-3 col-end-2 text-24px w-48px h-48px
             bg="#D8D8D8" rounded="50%" flex justify-center items-center>
-            😘
+            {item.tags?.[0].sign}
           </div>
           <div row-start-1 col-start-2 row-end-2 col-end-3>
-            旅行
+            {item.tags?.[0].name}
           </div>
           <div row-start-2 col-start-2 row-end-3 col-end-4 text="#999999">
-            2011年1月1日
+            {time(item.happened_at).format('yyyy-MM-dd HH:mm:ss')}
           </div>
           <div row-start-1 col-start-3 row-end-2 col-end-4 text="#53A867">
             ${item.amount / 100}
