@@ -62,7 +62,7 @@ export const SignInPage: React.FC = () => {
       <h1 text-32px text="#7878FF" font-bold>Money Manager</h1>
     </div>
     <form j-form onSubmit={onSubmit}>
-      <span text-gray text-13px>Test Account: test@test.com</span>
+      <span text-gray text-13px>Test Account: sk@sk.com</span>
       <Input label='Email' value={data.email} placeholder='Email' type="text"
         onChange={value => setData({ email: value })} error={error.email?.[0]} />
       <span text-gray text-13px>Test Verification Code: 123456</span>
