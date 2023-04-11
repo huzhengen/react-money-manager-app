@@ -21,6 +21,10 @@ pnpm run preview
 ```
 
 ```
+pnpm i -g git-open
+```
+
+```
 chmod +x bin/deploy_to_github1.sh
 ./bin/deploy_to_github1.sh
 ```
