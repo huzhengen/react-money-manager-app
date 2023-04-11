@@ -19,3 +19,8 @@ gc -v --amend
 pnpm run build
 pnpm run preview
 ```
+
+```
+chmod +x bin/deploy_to_github1.sh
+./bin/deploy_to_github1.sh
+```
