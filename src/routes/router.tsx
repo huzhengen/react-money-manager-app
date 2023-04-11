@@ -21,7 +21,7 @@ import { ComingSoonPage } from '../pages/ComingSoonPage'
 
 export const router = createHashRouter([
   { path: '/', element: <Root />, },
-  { path: '/home', element: <Home title="Home" /> },
+  { path: '/home', element: <Home /> },
   {
     path: '/welcome',
     element: <WelcomeLayout />,
