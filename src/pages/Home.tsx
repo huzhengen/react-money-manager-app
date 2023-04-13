@@ -1,7 +1,6 @@
 import useSWR from 'swr'
 import { Link, Navigate } from 'react-router-dom'
 import { useAjax } from '../lib/ajax'
-import { Loading } from '../components/Loading'
 import { AddItemFloatButton } from '../components/AddItemFloatButton'
 import { Icon } from '../components/Icon'
 
@@ -18,7 +17,7 @@ export const Home: React.FC = () => {
   const isLoadingItems = meData && !itemsData && !itemsError
 
   if (isLoadingMe || isLoadingItems) {
-    return <Loading className="h-screen" />
+    return <div text-center p-16px>Loading...</div>
   }
 
   if (itemsData?.resources[0]) {

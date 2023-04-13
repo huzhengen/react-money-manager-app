@@ -92,3 +92,5 @@ export const StatisticsPage: React.FC = () => {
     <RankChart className="m-t-8px" items={items2} />
   </div>)
 }
+
+export default StatisticsPage
