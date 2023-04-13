@@ -6,6 +6,20 @@ import { svgsprites } from './vite_plugins/svgsprites'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => ({
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id: any) {
+          if (id.includes('echarts')) {
+            return 'echarts'
+          }
+          if (id.includes('node_modules')) {
+            return 'vendor'
+          }
+        }
+      }
+    }
+  },
   server: {
     proxy: {
       '/api/': {
