@@ -8,6 +8,6 @@ export const ErrorPage: React.FC = () => {
   if (error instanceof ErrorUnauthorized) {
     return <Navigate replace to={`/sign_in?from=${from}`} />
   } else {
-    return <div>Unknown error</div>
+    return <div>未知错误</div>
   }
 }

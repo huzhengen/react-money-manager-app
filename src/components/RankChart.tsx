@@ -36,7 +36,7 @@ export const RankChart: React.FC<Props> = (props) => {
     <div className={className}>{
       items?.[0]
         ? renderItems()
-        : <div text-center>No data</div>
+        : <div text-center>暂无数据</div>
     }</div>
   )
 }

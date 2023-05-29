@@ -5,6 +5,8 @@
   --z-dialog: 512;
   --z-popup: 1024;
   --color-purple: #5C33BE;
+  --color-orange: #FD9F2B;
+  --color-brown: #581608;
 }
 
 * {
@@ -64,15 +66,12 @@ html {
 }
 
 @media (min-width:500px) {
-  body {
-    background: #000;
-  }
-
   #root {
     background: white;
     min-height: 100vh;
     max-width: 500px;
     margin-left: auto;
     margin-right: auto;
+    border: 1px solid #fff;
   }
 }

@@ -1,7 +1,6 @@
 import type { AxiosError } from 'axios'
 import type { FormEventHandler } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { BackIcon } from '../components/BackIcon'
 import { Gradient } from '../components/Gradient'
 import { Icon } from '../components/Icon'
 import { Input } from '../components/Input'
@@ -10,6 +9,7 @@ import { useAjax } from '../lib/ajax'
 import type { FormError } from '../lib/validate'
 import { hasError, validate } from '../lib/validate'
 import { useSignInStore } from '../stores/useSignInStore'
+import { BackIcon } from '../components/BackIcon'
 
 export const SignInPage: React.FC = () => {
   const { data, error, setData, setError } = useSignInStore()
@@ -31,7 +31,7 @@ export const SignInPage: React.FC = () => {
     ])
     setError(newError)
     if (!hasError(newError)) {
-      // Sign in
+      // 登陆
       const response = await postWithoutLoading<{ jwt: string }>('/api/v1/session', data)
         .catch(onSubmitError)
       // Putting jwt into localstorage
@@ -55,22 +55,22 @@ export const SignInPage: React.FC = () => {
   }
   return (<div>
     <Gradient>
-      <TopNav title='Sign In' icon={<BackIcon />} />
+      <TopNav title='登陆' icon={<BackIcon />} />
     </Gradient>
     <div text-center pt-40px pb-16px>
-      <Icon name="logo" className='w-64px h-68px' />
-      <h1 text-32px text="#7878FF" font-bold>Money Manager</h1>
+      <Icon name="pig" className='w-64px h-68px' />
+      <h1 text-32px text="#581608" font-bold>时刻存钱罐</h1>
     </div>
-    <form j-form onSubmit={onSubmit}>
-      <span text-gray text-13px>Test Account: sk@sk.com</span>
-      <Input label='Email' value={data.email} placeholder='Email' type="text"
+    <form j-form onSubmit={onSubmit} text="#581608">
+      <span text-gray text-13px>测试邮箱: sk@sk.com</span>
+      <Input label='邮箱' value={data.email} placeholder='请输入邮箱' type="text"
         onChange={value => setData({ email: value })} error={error.email?.[0]} />
-      <span text-gray text-13px>Test Verification Code: 123456</span>
-      <Input label='Code' value={data.code} placeholder='Enter 6-digit code' type='sms_code'
+      <span text-gray text-13px>测试验证码: 123456</span>
+      <Input label='验证码' value={data.code} placeholder='请输入 6 位数字' type='sms_code'
         onChange={value => setData({ code: value })} error={error.code?.[0]}
         request={sendCode} />
       <div mt-100px>
-        <button j-btn type="submit">Sign In</button>
+        <button j-btn type="submit">登陆</button>
       </div>
     </form>
   </div>)

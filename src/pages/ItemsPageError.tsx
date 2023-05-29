@@ -11,6 +11,6 @@ export const ItemsPageError: React.FC = () => {
   } else if (e instanceof ErrorEmptyData) {
     return <Navigate replace to="/home" />
   } else {
-    return <div>Unknown error</div>
+    return <div>未知错误</div>
   }
 }

@@ -9,7 +9,7 @@ type Props = {
 
 export const EmojiInput: React.FC<Props> = (props) => {
   const { value, onChange } = props
-  const [emojiKind, setEmojiKind] = useState('face')
+  const [emojiKind, setEmojiKind] = useState('表情')
   return (
     <div className={s.wrapper} b-1 b-solid b="#5C33BE" rounded-8px>
       <div flex p-8px gap-x-16px overflow-auto text="#999">

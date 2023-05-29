@@ -13,7 +13,7 @@ interface CreateItem {
 
 export const useCreateItemStore = create<CreateItem>(set => ({
   data: {
-    kind: 'expenses',
+    kind: 'income',
     tag_ids: [],
     happen_at: time(new Date()).isoString,
     amount: 0,

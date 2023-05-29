@@ -13,9 +13,9 @@ export const Welcome4: React.FC = () => {
   return (
     <div text-center>
       <img w-129px h-183px src={welcome4} alt="" />
-      <h2 text-32px mt-48px>Sync</h2>
+      <h2 text-32px mt-48px color="#581608">数据同步不怕丢</h2>
       <div mt-64px>
-        <span text-32px color="#6035BF" font-bold onClick={onSkip}>Start</span>
+        <span text-32px color="#581608" font-bold onClick={onSkip}>进入应用</span>
       </div>
     </div>
   )

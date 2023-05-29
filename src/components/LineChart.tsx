@@ -24,9 +24,9 @@ export const LineChart: React.FC<Props> = (props) => {
         show: true,
         formatter: ([{ axisValue, data }]: any) => {
           const parts = axisValue.split('-')
-          const label = `${parts[1]}/${parts[2]}/${parts[0]}`
-          const value = data === null ? 'No data' : `${data}`
-          return `${label}<br/><div style="text-align: right;">$${value}</div>`
+          const label = `${parts[0]}/${parts[1]}/${parts[2]}`
+          const value = data === null ? '暂无数据' : `${data}`
+          return `${label}<br/><div style="text-align: right;">￥${value}</div>`
         }
       },
       grid: {

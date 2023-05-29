@@ -49,11 +49,11 @@ export const WelcomeLayout: React.FC = () => {
     setHasReadWelcomes(true)
     nav('/home')
   }
-  return <div className="bg-#5f34bf" h-screen flex flex-col items-stretch pb-16px>
-    <span fixed text-white top-16px right-16px text-32px onClick={onSkip}>Skip</span>
+  return <div className="bg-#fd9f2b" relative h-screen flex flex-col items-stretch pb-16px>
+    <span absolute text-white top-16px right-16px text-32px onClick={onSkip}>跳过</span>
     <header shrink-0 text-center pt-32px>
       <img src={logo} alt="" w-64px h-69px />
-      <h1 text="#D4D4EE" text-32px>Manager</h1>
+      <h1 text="#FFFFFF" text-32px>时刻存钱罐</h1>
     </header>
     <main shrink-1 grow-1 relative ref={main}>
       {transitions((style, pathname) =>

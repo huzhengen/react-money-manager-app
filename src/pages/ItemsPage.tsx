@@ -33,7 +33,7 @@ export const ItemsPage: React.FC = () => {
   const { start, end } = timeRange
   return <div>
     <Gradient>
-      <TopNav title="List" icon={<Icon name="menu" className="w-24px h-24px" onClick={() => setVisible(!visible)} />} />
+      <TopNav title="记账" icon={<Icon name="menu" className="w-24px h-24px" onClick={() => setVisible(!visible)} />} />
     </Gradient>
     <TimeRangePicker onSelect={setTimeRange} selected={timeRange} />
     {outOfRange

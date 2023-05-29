@@ -29,7 +29,7 @@ export const Tabs = <T extends string | { name: string }>(props: Props<T>) => {
   return (
     <div className={cs(className, classPrefix)} flex flex-col>
       <ol className={classPrefix ? `${classPrefix}-menu` : ''}
-        flex text-white children-px-24px children-py-12px bg='[rgb(143,76,215)]'
+        flex text-white children-px-24px children-py-12px bg='[rgb(253,159,43)]'
         grow-0 shrink-0>
         {tabItems.map(item => <li key={typeof item.key === 'string' ? item.key : item.key.name}
           className={

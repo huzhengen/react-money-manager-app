@@ -20,7 +20,7 @@ export const PieChart: React.FC<Props> = (props) => {
       tooltip: {
         trigger: 'item',
         formatter: ({ data: { name, value, sign } }: any) => {
-          return `${sign} ${name}: $${value}</div>`
+          return `${sign} ${name}: ￥${value}</div>`
         }
       },
       grid: { top: 0, left: 0, bottom: 0, right: 0 },

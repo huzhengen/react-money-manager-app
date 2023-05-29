@@ -47,7 +47,7 @@ export const SmsCodeInput: React.FC<Props> = (props) => {
         value={value} onChange={e => onChange?.(e.target.value)} />
       {started
         ? <button type="button" j-btn disabled bg-gray>{count}s</button>
-        : <button type="button" j-btn onClick={onClick}>Send Code</button>}
+        : <button type="button" j-btn onClick={onClick}>发送验证码</button>}
     </div>
   )
 }

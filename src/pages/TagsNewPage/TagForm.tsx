@@ -25,7 +25,7 @@ export const TagForm: React.FC<Props> = (props) => {
   const { data: tag } = useSWR(id ? `/api/v1/tags/${id}` : null,
     async path =>
       (await get<Resource<Tag>>(path)).data.resource,
-    { revalidateIfStale: false }
+    { revalidateIfStale: false, revalidateOnFocus: false }
   )
   useEffect(() => {
     if (tag) {
@@ -36,10 +36,10 @@ export const TagForm: React.FC<Props> = (props) => {
   useEffect(() => {
     if (type !== 'create') { return }
     if (!kind) {
-      throw new Error('kind is required')
+      throw new Error('类型必填')
     }
     if (kind !== 'expenses' && kind !== 'income') {
-      throw new Error('kind must be expenses or income')
+      throw new Error('类型必须是 expenses 或 income')
     }
     setData({ kind })
   }, [searchParams])
@@ -57,10 +57,10 @@ export const TagForm: React.FC<Props> = (props) => {
   const onSubmit: FormEventHandler = async (e) => {
     e.preventDefault()
     const newError = validate(data, [
-      { key: 'kind', type: 'required', message: 'kind is required' },
-      { key: 'name', type: 'required', message: 'Please input tag name' },
-      { key: 'name', type: 'length', max: 4, message: 'Tag up to 4 characters' },
-      { key: 'sign', type: 'required', message: 'Please input sign' },
+      { key: 'kind', type: 'required', message: '记账类型必填' },
+      { key: 'name', type: 'required', message: '请输入标签名' },
+      { key: 'name', type: 'length', max: 4, message: '标签最长 4 个字符' },
+      { key: 'sign', type: 'required', message: '请选择标签' },
     ])
     setError(newError)
     if (!hasError(newError)) {
@@ -73,15 +73,15 @@ export const TagForm: React.FC<Props> = (props) => {
     }
   }
   return (
-    <form onSubmit={onSubmit} p-16px p-t-32px flex flex-col gap-y-8px>
-      <Input label='Tag name' error={error.name?.[0]} type='text'
+    <form onSubmit={onSubmit} p-16px p-t-32px flex flex-col gap-y-8px text="#581608">
+      <Input label='标签名' error={error.name?.[0]} type='text'
         value={data.name} onChange={name => setData({ name })} />
-      <Input type='emoji' label={<span>Tag <span text-24px>{data.sign}</span></span>}
+      <Input type='emoji' label={<span>标签 <span text-24px>{data.sign}</span></span>}
         value={data.sign} onChange={sign => setData({ sign })}
         error={error.sign?.[0]} />
-      <p text-center p-b-24px text-14px>Press and hold the tag to edit when bookkeeping</p>
+      <p text-center p-b-24px text-14px>记账时长按标签可进行编辑</p>
       <div>
-        <button j-btn>Confirm</button>
+        <button j-btn>确认</button>
       </div>
     </form>
   )

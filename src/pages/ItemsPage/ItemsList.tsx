@@ -27,7 +27,7 @@ export const ItemsList: React.FC<Props> = (props) => {
   const { data, error, size, setSize } = useSWRInfinite(
     getKey,
     async path => (await get<Resources<Item>>(path)).data,
-    { revalidateAll: true }
+    { revalidateAll: true, revalidateOnFocus: false }
   )
   const onLoadMore = () => {
     setSize(size + 1)
@@ -37,8 +37,8 @@ export const ItemsList: React.FC<Props> = (props) => {
   const isLoading = isLoadingInitialData || isLoadingMore
   if (!data) {
     return <div>
-      {error && <Div>Something went wrong. Try refreshing this page.</Div>}
-      {isLoading && <Div>Loading...</Div>}
+      {error && <Div>出错了，请刷新页面。</Div>}
+      {isLoading && <Div>加载中...</Div>}
     </div>
   } else {
     const last = data[data.length - 1]
@@ -59,17 +59,17 @@ export const ItemsList: React.FC<Props> = (props) => {
             {time(item.happened_at).format('yyyy-MM-dd HH:mm:ss')}
           </div>
           <div row-start-1 col-start-3 row-end-2 col-end-4 text="#53A867">
-            ${item.amount / 100}
+            ￥{item.amount / 100}
           </div>
         </li>
       )
     })}</ol>
-      {error && <Div>Something went wrong. Try refreshing this page.</Div>}
+      {error && <Div>出错了，请刷新页面</Div>}
       {!hasMore
-        ? <Div>No more data to display</Div>
+        ? <Div>没有更多数据了</Div>
         : isLoading
-          ? <Div>Loading...</Div>
-          : <Div><button j-btn onClick={onLoadMore}>Load More</button></Div>}
+          ? <Div>加载中...</Div>
+          : <Div><button j-btn onClick={onLoadMore}>加载更多</button></Div>}
     </>
   }
 }

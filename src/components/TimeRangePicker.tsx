@@ -19,15 +19,15 @@ type Props = {
 const defaultTimeRanges: { key: TimeRange; text: string }[] = [
   {
     key: { name: 'thisMonth', start: time().firstDayOfMonth, end: time().lastDayOfMonth.add(1, 'day') },
-    text: 'this month'
+    text: '本月'
   },
   {
     key: { name: 'lastMonth', start: time().add(-1, 'month').firstDayOfMonth, end: time().add(-1, 'month').lastDayOfMonth.add(1, 'day') },
-    text: 'last month'
+    text: '上个月'
   },
   {
     key: { name: 'custom', start: time(), end: time() },
-    text: 'custom'
+    text: '自定义'
   },
 ]
 export const TimeRangePicker: React.FC<Props> = (props) => {
@@ -45,14 +45,14 @@ export const TimeRangePicker: React.FC<Props> = (props) => {
   const { popup, show, hide } = usePopup({
     zIndex: 'var(--z-dialog)',
     children: <div>
-      <header text-18px bg="[var(--color-purple)]" text-white py-13px p-l-16px>Please select a time</header>
+      <header text-18px bg="[var(--color-purple)]" text-white py-13px p-l-16px>请选择日期</header>
       <main p-16px>
         <Input type="date" className="w280px" disableError label="Start Time" value={start} onChange={d => setStart(d)} />
         <Input type="date" className="mt-8px" disableError label="End Time" value={end} onChange={d => setEnd(d)} />
       </main>
       <footer text-right>
-        <button border-none bg-transparent px-16px py-8px onClick={() => hide()}>Cancel</button>
-        <button border-none bg-transparent px-16px py-8px onClick={onConfirm}>Confirm</button>
+        <button border-none bg-transparent px-16px py-8px onClick={() => hide()}>取消</button>
+        <button border-none bg-transparent px-16px py-8px onClick={onConfirm}>确认</button>
       </footer>
     </div>,
     position: 'center'
