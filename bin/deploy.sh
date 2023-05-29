@@ -16,25 +16,22 @@ function title {
   echo 
 }
 
-mkdir -p $cache_dir
+# mkdir -p $cache_dir
 
-title '已经 pnpm run build 了吗？'
+# title '已经 pnpm run build 了吗？'
 
 title '删除远程 deploys 目录'
 ssh $user@$ip "rm -rf /home/$user/deploys/"
 title '创建远程目录'
 ssh $user@$ip "mkdir -p $deploy_dir/vendor"
 
-title '打包前端代码'
-mkdir -p $frontend_dir
-# rm -rf $frontend_dir/repo
-# cd $frontend_dir/repo && pnpm install && pnpm run build; cd -
-# pnpm run build # 可配置，TODO
-tar -cz -f "$frontend_dir/dist.tar.gz" -C "$current_dir/../dist" .
+# title '打包前端代码'
+# mkdir -p $frontend_dir
+# tar -cz -f "$frontend_dir/dist.tar.gz" -C "$current_dir/../dist" .
 
-title '上传前端代码'
-scp "$frontend_dir/dist.tar.gz" $user@$ip:$deploy_dir/
-yes | rm -rf $frontend_dir
+# title '上传前端代码'
+# scp "$frontend_dir/dist.tar.gz" $user@$ip:$deploy_dir/
+# yes | rm -rf $frontend_dir
 
 title '上传 nginx 配置文件'
 scp $current_dir/../config/sk.vue.nginx.conf $user@$ip:$deploy_dir/

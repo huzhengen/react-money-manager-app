@@ -30,16 +30,16 @@ export const Datepicker: React.FC<Props> = (props) => {
   return (
     <div>
       <div flex justify-between p-8px border-b-1 b-b-solid b="#f3f3f3" children-p-8px>
-        <span onClick={onCancel}>Cancel</span>
-        <span>Select date</span>
-        <span onClick={() => onConfirm?.(valueTime.current.date)}>Confirm</span>
+        <span onClick={onCancel}>取消</span>
+        <span>选择日期</span>
+        <span onClick={() => onConfirm?.(valueTime.current.date)}>确定</span>
       </div>
       <div flex children-grow-1 text-center children-p-16px>
-        <span>Year</span>
-        <span>Month</span>
-        <span>Day</span>
-        <span>Hour</span>
-        <span>Minute</span>
+        <span>年</span>
+        <span>月</span>
+        <span>日</span>
+        <span>时</span>
+        <span>分</span>
       </div>
       <div flex>
         <Column className="grow-1" items={yearList} value={valueTime.current.year}

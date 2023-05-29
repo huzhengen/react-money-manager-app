@@ -42,7 +42,7 @@ export const ItemsNewPage: React.FC = () => {
     e.preventDefault()
     const newError = validate(data, [
       { key: 'kind', type: 'required', message: '类型必填' },
-      { key: 'tag_ids', type: 'required', message: 'Sign is required' },
+      { key: 'tag_ids', type: 'required', message: '标签必填' },
       { key: 'happen_at', type: 'required', message: '日期必填' },
       { key: 'amount', type: 'required', message: '金额必填' },
       { key: 'amount', type: 'notEqual', value: 0, message: '金额不能为0' },
