@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 import { Icon } from '../Icon'
+import { useMenuStore } from '../../stores/useMenuStore'
 
 interface Props {
   className?: string
@@ -19,10 +20,11 @@ const items = [
 ]
 
 export const Menu: React.FC<Props> = ({ className }) => {
+  const { setVisible } = useMenuStore()
   return (
     <ul className={className} bg-white text-20px py-16px >
       {items.map(item =>
-        <li key={item.to}>
+        <li key={item.to} onClick={() => setVisible(false)}>
           <NavLink flex items-center px-16px py-8px mb-4px color="#581608" to={item.to}>
             <MyIcon name={item.icon} />{item.text}
           </NavLink>

@@ -56,7 +56,7 @@ export const ItemsList: React.FC<Props> = (props) => {
             {item.tags?.[0].name}
           </div>
           <div row-start-2 col-start-2 row-end-3 col-end-4 text="#999999">
-            {time(item.happened_at).format('yyyy-MM-dd HH:mm:ss')}
+            {time(item.happen_at).format('yyyy-MM-dd HH:mm:ss')}
           </div>
           <div row-start-1 col-start-3 row-end-2 col-end-4 text="#53A867">
             ￥{item.amount / 100}
@@ -66,7 +66,7 @@ export const ItemsList: React.FC<Props> = (props) => {
     })}</ol>
       {error && <Div>出错了，请刷新页面</Div>}
       {!hasMore
-        ? <Div>没有更多数据了</Div>
+        ? <Div>没有更多记账了</Div>
         : isLoading
           ? <Div>加载中...</Div>
           : <Div><button j-btn onClick={onLoadMore}>加载更多</button></Div>}

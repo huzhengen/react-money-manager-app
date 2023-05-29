@@ -31,7 +31,7 @@ export const SignInPage: React.FC = () => {
     ])
     setError(newError)
     if (!hasError(newError)) {
-      // 登陆
+      // 登录
       const response = await postWithoutLoading<{ jwt: string }>('/api/v1/session', data)
         .catch(onSubmitError)
       // Putting jwt into localstorage
@@ -55,7 +55,7 @@ export const SignInPage: React.FC = () => {
   }
   return (<div>
     <Gradient>
-      <TopNav title='登陆' icon={<BackIcon />} />
+      <TopNav title='登录' icon={<BackIcon />} />
     </Gradient>
     <div text-center pt-40px pb-16px>
       <Icon name="pig" className='w-64px h-68px' />
@@ -70,7 +70,7 @@ export const SignInPage: React.FC = () => {
         onChange={value => setData({ code: value })} error={error.code?.[0]}
         request={sendCode} />
       <div mt-100px>
-        <button j-btn type="submit">登陆</button>
+        <button j-btn type="submit">登录</button>
       </div>
     </form>
   </div>)
