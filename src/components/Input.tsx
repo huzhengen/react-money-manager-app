@@ -51,7 +51,7 @@ export const Input = <T extends string>(props: Props<T>) => {
   return (
     <>
       <div flex flex-col gap-y-8px className={className}>
-        {label ? <span text-18px>{label}</span> : null}
+        {label ? <span text-18px color="[var(--color-brown)]">{label}</span> : null}
         {renderInput()}
         {disableError ? null : <span text-red text-12px>{error || '　'}</span>}
       </div>
