@@ -7,7 +7,7 @@ export const summaryMock: MockMethod[] = [{
   timeout: 1000,
   response: ({ query }: ResponseParams) => {
     if (query.group_by === 'happen_at') {
-      if (query.happened_after === '2023-03-01') {
+      if (query.happen_after === '2023-03-01') {
         return {
           groups: [
             { happen_at: '2023-03-01', tag: null, amount: 100 },
@@ -16,7 +16,7 @@ export const summaryMock: MockMethod[] = [{
           ],
           total: 900
         }
-      } else if (query.happened_after === '2023-02-01') {
+      } else if (query.happen_after === '2023-02-01') {
         return {
           groups: [
             { happen_at: '2023-02-01', tag: null, amount: 100 },
@@ -27,7 +27,7 @@ export const summaryMock: MockMethod[] = [{
         }
       }
     } else if (query.group_by === 'tag_id') {
-      if (query.happened_after === '2023-03-01') {
+      if (query.happen_after === '2023-03-01') {
         return {
           groups: [
             {
@@ -75,7 +75,7 @@ export const summaryMock: MockMethod[] = [{
           ],
           total: 600
         }
-      } else if (query.happened_after === '2023-02-01') {
+      } else if (query.happen_after === '2023-02-01') {
         return {
           groups: [
             {

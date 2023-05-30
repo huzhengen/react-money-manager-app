@@ -26,7 +26,7 @@ type GetKeyParams = {
   group_by: 'happen_at' | 'tag_id'
 }
 const getKey = ({ start, end, kind, group_by }: GetKeyParams) => {
-  return `/api/v1/items/summary?happened_after=${start.format(format)}&happened_before=${end.format(format)}&kind=${kind}&group_by=${group_by}`
+  return `/api/v1/items/summary?happen_after=${start.format(format)}&happen_before=${end.format(format)}&kind=${kind}&group_by=${group_by}`
 }
 
 export const StatisticsPage: React.FC = () => {

@@ -21,7 +21,7 @@ export const ItemsList: React.FC<Props> = (props) => {
       const count = prev.pager.count
       if (sendCount >= count) { return null }
     }
-    return `/api/v1/items?page=${pageIndex + 1}&happened_after=${start.removeTime().isoString}&happened_before=${end.removeTime().isoString}`
+    return `/api/v1/items?page=${pageIndex + 1}&happen_after=${start.removeTime().isoString}&happen_before=${end.removeTime().isoString}`
   }
   const { get } = useAjax()
   const { data, error, size, setSize } = useSWRInfinite(

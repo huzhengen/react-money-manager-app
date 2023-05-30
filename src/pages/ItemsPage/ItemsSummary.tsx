@@ -9,7 +9,7 @@ type Props = {
 export const ItemsSummary: React.FC<Props> = (props) => {
   const { start, end } = props
   const { get } = useAjax({ showLoading: false, handleError: false })
-  const { data } = useSWR(start && end && `/api/v1/items/balance?happened_after=${start.isoString}&happened_before=${end.isoString}`, async path =>
+  const { data } = useSWR(start && end && `/api/v1/items/balance?happen_after=${start.isoString}&happen_before=${end.isoString}`, async path =>
     (await get<{ balance: number; expenses: number; income: number }>(path)).data,
   { revalidateOnFocus: false }
   )
