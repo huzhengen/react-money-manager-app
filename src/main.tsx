@@ -11,4 +11,12 @@ root.render(
   </React.StrictMode>
 )
 
+if (!/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+  const hasAlerted = localStorage.getItem('hasAlerted')
+  if (hasAlerted !== 'yes') {
+    window.alert('建议使用手机浏览本应用')
+    localStorage.setItem('hasAlerted', 'yes')
+  }
+}
+
 export { div as rootDiv }
