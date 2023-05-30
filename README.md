@@ -1,6 +1,8 @@
 # React-Money-Manager-App
 
-部署之前要修改后端 IP，在 ajax.ts。
+部署之前要修改部署脚本里的 IP 为前端服务器 IP
+
+还需要修改 `ajax.ts` 里的 IP 和端口，为后端服务器 IP。
 
 部署步骤：
 1. `pnpm run build`
